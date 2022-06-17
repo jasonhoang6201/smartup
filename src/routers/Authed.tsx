@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import router from './index'
 import useRouting from "src/hooks/UseRouting";
 
-const Authed = () => {
+const Authenticated = () => {
     const { generate } = useRouting()
 
     return (
@@ -23,4 +23,4 @@ const Authed = () => {
     );
 };
 
-export default Authed;
+export default Authenticated;

@@ -1,8 +1,7 @@
-import React from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { RequireAuth, RequireGuest } from 'src/Auth'
 import Login from 'src/containers/Login'
-import Authed from './Authed'
+import Authenticated from './Authed'
 
 type Props = {}
 
@@ -22,7 +21,7 @@ const Root = (props: Props) => {
                     path="*"
                     element={
                         <RequireAuth>
-                            <Authed />
+                            <Authenticated />
                         </RequireAuth>
                     }
                 />
