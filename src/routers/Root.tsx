@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { RequireAuth, RequireGuest } from 'src/Auth'
+import { CheckAuth } from 'src/Auth'
 import Login from 'src/containers/Login'
 import Authenticated from './Authed'
 
@@ -12,17 +12,15 @@ const Root = (props: Props) => {
                 <Route
                     path="/login"
                     element={
-                        <RequireGuest>
-                            <Login />
-                        </RequireGuest>
+                        <Login />
                     }
                 />
                 <Route
                     path="*"
                     element={
-                        <RequireAuth>
+                        <CheckAuth>
                             <Authenticated />
-                        </RequireAuth>
+                        </CheckAuth>
                     }
                 />
                 <Route path="*" element={<Navigate to={`/`} replace />} />
