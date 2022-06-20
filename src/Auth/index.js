@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "src/api";
-import { login } from "src/app/auth";
+import { login } from "src/redux/auth";
 import LoadingScreen from "src/components/LoadingScreen";
 import { deleteCookie, getCookie } from "src/helpers/cookie";
 
