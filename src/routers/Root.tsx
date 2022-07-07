@@ -1,6 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { RequireAuth, RequireGuest } from 'src/Auth'
-import Login from 'src/containers/Login'
+import { CheckAuth } from 'src/Auth'
 import Authenticated from './Authed'
 
 type Props = {}
@@ -10,19 +9,11 @@ const Root = (props: Props) => {
         <BrowserRouter>
             <Routes>
                 <Route
-                    path="/login"
-                    element={
-                        <RequireGuest>
-                            <Login />
-                        </RequireGuest>
-                    }
-                />
-                <Route
                     path="*"
                     element={
-                        <RequireAuth>
+                        <CheckAuth>
                             <Authenticated />
-                        </RequireAuth>
+                        </CheckAuth>
                     }
                 />
                 <Route path="*" element={<Navigate to={`/`} replace />} />
