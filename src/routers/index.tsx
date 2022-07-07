@@ -1,5 +1,6 @@
 import Category from "src/pages/Category";
 import Home from "src/pages/Home";
+import ProductDetail from "src/pages/ProductDetail";
 
 export interface Routers {
     name: string;
@@ -14,9 +15,14 @@ const routers: Routers[] = [
         element: Home,
     },
     {
-        name: "home",
+        name: "category",
         path: "/category/:category",
         element: Category,
+    },
+    {
+        name: "product",
+        path: "/product/:id",
+        element: ProductDetail,
     },
 ]
 
