@@ -21,6 +21,9 @@
         }
 
         .feature {
+            display: flex;
+            align-items: center;
+
             img {
                 cursor: pointer;
 
@@ -30,7 +33,17 @@
             }
 
             img:first-child {
-                margin-right: 1rem;
+                margin-right: 2rem;
+            }
+
+            span {
+                font-size: 1.2rem;
+                color: #595959;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 0.7;
+                }
             }
         }
     }

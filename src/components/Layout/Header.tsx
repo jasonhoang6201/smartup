@@ -5,9 +5,15 @@ import user from 'src/assets/icons/user.svg'
 import cart from 'src/assets/icons/cart.svg'
 import './Layout.scss'
 import { Link } from 'react-router-dom'
+import ModalLogin from '../ModalLogin'
+import { useSelector } from 'react-redux'
+import { User } from 'src/redux/auth'
 type Props = {}
 
 const Header = (props: Props) => {
+    const userState: User = useSelector((state: any) => state.auth.user)
+    const [isModalLogin, setIsModalLogin] = React.useState(false)
+
     const category = useMemo(() => {
         return [
             {
@@ -41,16 +47,20 @@ const Header = (props: Props) => {
         <div className="header">
             <div className="header-up">
                 <div className="search">
-                    <img src={search} alt="search" />
+                    <img src={search} alt="search" width={30} />
                 </div>
                 <Link to={'/'}>
                     <div className="logo">
-                        <img src={logo} alt="logo" height={50} />
+                        <img src={logo} alt="logo" height={100} />
                     </div>
                 </Link>
                 <div className="feature">
-                    <img src={cart} alt="cart" />
-                    <img src={user} alt="user" />
+                    <img src={cart} alt="cart" width={30} />
+                    {userState ?
+                        <img src={user} alt="user" width={30} />
+                        :
+                        <span onClick={() => setIsModalLogin(true)}>Login/Register</span>
+                    }
                 </div>
             </div>
             <div className="header-down">
@@ -61,6 +71,8 @@ const Header = (props: Props) => {
                         </li>)}
                 </ul>
             </div>
+
+            <ModalLogin visible={isModalLogin} onCancel={() => setIsModalLogin(false)} />
         </div>
     )
 }
