@@ -1,0 +1,64 @@
+.category {
+
+    .hero {
+        position: relative;
+
+        img {
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        h3 {
+            color: #FFF;
+            font-size: 2rem;
+            position: absolute;
+            bottom: 1rem;
+            left: 2rem;
+        }
+    }
+
+    .category-wrapper {
+        padding: 1rem 5rem;
+
+        &>.ant-row {
+            &>.ant-col:first-child {
+                padding: 1rem;
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+
+                    .ant-form-item {
+                        margin-bottom: 0;
+
+                        .ant-form-item-control {
+                            padding: 0;
+                        }
+                    }
+
+                    li {
+                        padding: 0.5rem 0.5rem 0.5rem 1rem;
+                        border-radius: 0.5rem;
+                        background-color: #FFF;
+                        margin-bottom: 0.2rem;
+                        cursor: pointer;
+                        transition: all 0.3s ease-in-out;
+
+                        &:hover {
+                            background-color: #F5F5F5;
+                        }
+
+                        .ant-checkbox {
+                            margin-right: 1rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .product-list {
+            padding: 1rem;
+        }
+    }
+}
