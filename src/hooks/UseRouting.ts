@@ -9,7 +9,7 @@ const useRouting = () => {
         }
         return "";
     };
-    return { generate };
+    return { generate }
 };
 
 export default useRouting;

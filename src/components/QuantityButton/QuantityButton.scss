@@ -1,0 +1,23 @@
+.quantity-button {
+    background-color: #F9F9F9;
+    border-radius: 5px;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 7rem;
+    padding: 0.5rem;
+    user-select: none;
+
+    svg {
+        box-sizing: content-box;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        color: #595959;
+        padding: 0.5rem;
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+}

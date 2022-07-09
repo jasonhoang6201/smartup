@@ -1,23 +1,29 @@
 import { Col, Radio, Row } from 'antd'
 import React, { useEffect } from 'react'
-import { FaHeart, FaMinus, FaPlus } from 'react-icons/fa'
-import { useParams } from 'react-router-dom'
+import { FaHeart } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import ModalLogin from 'src/components/ModalLogin'
 import ProductCard from 'src/components/ProductCard'
+import QuantityButton from 'src/components/QuantityButton'
+import useRouting from 'src/hooks/UseRouting'
 import './ProductDetail.scss'
 
 type Props = {}
 
 const ProductDetail = (props: Props) => {
+    const user = useSelector((state: any) => state.auth.user)
     const params = useParams()
     const [amount, setAmount] = React.useState(1)
+    const [isModalLogin, setIsModalLogin] = React.useState(false)
+    const navigate = useNavigate()
+    const { generate } = useRouting()
 
-    const handleAddAmount = () => {
-        setAmount(amount + 1)
-    }
+    const handleAddToCard = () => {
+        if (user) {
 
-    const handleMinusAmount = () => {
-        if (amount > 0) {
-            setAmount(amount - 1)
+        } else {
+            setIsModalLogin(true)
         }
     }
 
@@ -65,14 +71,10 @@ const ProductDetail = (props: Props) => {
                         </div>
                         <div className="product-detail-info-quantity">
                             <h3>Amount:</h3>
-                            <div className="product-detail-info-quantity-control">
-                                <FaMinus onClick={handleMinusAmount} />
-                                <span>{amount}</span>
-                                <FaPlus onClick={handleAddAmount} />
-                            </div>
+                            <QuantityButton value={amount} onChange={setAmount} />
                         </div>
                         <div className="product-detail-info-button">
-                            <button className='btn'>Add to cart</button>
+                            <button className='btn' onClick={handleAddToCard}>Add to cart</button>
                         </div>
                     </div>
                 </Col>
@@ -93,7 +95,12 @@ const ProductDetail = (props: Props) => {
                         </Col>
                     )}
                 </Row>
+
+                <div className="btn-view-more">
+                    <button className="btn" onClick={() => navigate(generate('category'))}>View more</button>
+                </div>
             </div>
+            <ModalLogin visible={isModalLogin} onCancel={() => setIsModalLogin(false)} />
         </div>
     )
 }

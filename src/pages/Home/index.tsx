@@ -72,7 +72,7 @@ const Home = (props: Props) => {
                 </div>
             </div>
             <div className="promotion-v2">
-                <Row gutter={[0, 30]}>
+                <Row>
                     <Col md={12} xs={24}>
                         <div>
                             <div>
@@ -84,7 +84,7 @@ const Home = (props: Props) => {
                     </Col>
                     <Col md={12} xs={24}>
                         <div>
-                            <img src={promotionV2} alt="" width={'100%'} height={500} />
+                            <img src={promotionV2} alt="" width={'100%'} />
                         </div>
                     </Col>
                 </Row>

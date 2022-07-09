@@ -1,6 +1,8 @@
+import Cart from "src/pages/Cart";
 import Category from "src/pages/Category";
 import Home from "src/pages/Home";
 import ProductDetail from "src/pages/ProductDetail";
+import Profile from "src/pages/Profile";
 
 export interface Routers {
     name: string;
@@ -13,6 +15,11 @@ const routers: Routers[] = [
         name: "home",
         path: "/",
         element: Home,
+    },
+    {
+        name: "profile",
+        path: "/profile",
+        element: Profile,
     },
     {
         name: "category",
@@ -28,6 +35,11 @@ const routers: Routers[] = [
         name: "product",
         path: "/product/:id",
         element: ProductDetail,
+    },
+    {
+        name: "cart",
+        path: "/cart",
+        element: Cart,
     },
 ]
 

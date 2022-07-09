@@ -52,7 +52,9 @@ const Category = (props: Props) => {
     useEffect(() => {
         if (params?.category) {
             form.setFieldsValue({
-                category: [params.category]
+                category: [params.category],
+                price: 0,
+                brand: []
             })
         } else {
             form.setFieldsValue({
@@ -207,6 +209,9 @@ const Category = (props: Props) => {
                                     </Col>
                                 )}
                             </Row>
+                            <div className="btn-view-more">
+                                <button className="btn">Load more</button>
+                            </div>
                         </div>
                     </Col>
                 </Row>

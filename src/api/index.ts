@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestHeaders } from "axios";
 import { deleteCookie } from "src/helpers/cookie";
 
 const instance = axios.create();
@@ -10,50 +10,50 @@ class Api {
         this.defaults = instance.defaults;
         this.interceptors = instance.interceptors;
     }
-    get(url, params, headers) {
+    get(url: string, params: object, headers?: AxiosRequestHeaders) {
         return new Promise((resolve, reject) => {
             instance
                 .get(url, { params, headers })
-                .then((data) => resolve(data))
+                .then((data: object) => resolve(data))
                 .catch(reject);
         });
     }
-    post(url, data, params, headers) {
+    post(url: string, data: any, params: object, headers?: AxiosRequestHeaders) {
         return new Promise((resolve, reject) => {
             instance
                 .post(url, data, { params, headers })
-                .then((data) => resolve(data))
+                .then((data: object) => resolve(data))
                 .catch(reject);
         });
     }
-    put(url, data, params, headers) {
+    put(url: string, data: any, params: object, headers?: AxiosRequestHeaders) {
         return new Promise((resolve, reject) => {
             instance
                 .put(url, data, { params, headers })
-                .then((data) => resolve(data))
+                .then((data: object) => resolve(data))
                 .catch(reject);
         });
     }
-    delete(url, params, headers) {
+    delete(url: string, params: object, headers?: AxiosRequestHeaders) {
         return new Promise((resolve, reject) => {
             instance
                 .delete(url, { params, headers })
-                .then((data) => resolve(data))
+                .then((data: object) => resolve(data))
                 .catch(reject);
         });
     }
-    patch(url, data, params, headers) {
+    patch(url: string, data: any, params: object, headers?: AxiosRequestHeaders) {
         return new Promise((resolve, reject) => {
             instance
                 .patch(url, data, { params, headers })
-                .then((data) => resolve(data))
+                .then((data: object) => resolve(data))
                 .catch(reject);
         });
     }
 }
 
 const api = new Api();
-api.defaults.baseURL = "htpp://test"
+api.defaults.baseURL = "htpp://localhost:3001/api"
 api.interceptors.response.use(
     (response) => response.data,
     (error) => {
