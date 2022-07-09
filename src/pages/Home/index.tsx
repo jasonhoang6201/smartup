@@ -75,10 +75,10 @@ const Home = (props: Props) => {
                 <Row gutter={[0, 30]}>
                     <Col md={12} xs={24}>
                         <div>
-                            <p>
+                            <div>
                                 <h1>Start buying and decorating your phone</h1>
                                 <p>Your satisfaction is our greatest motivation</p>
-                            </p>
+                            </div>
                             <p className='link-container'><Link to="/category">View collection</Link></p>
                         </div>
                     </Col>

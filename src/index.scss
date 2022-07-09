@@ -26,3 +26,31 @@
         color: #FFF;
     }
 }
+
+.custom-input {
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: #000;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+    box-shadow: none;
+
+    &:focus-within {
+        border: 1px solid #000;
+        box-shadow: none;
+    }
+
+    &:hover {
+        border: 1px solid #000;
+    }
+}
+
+.custom-input.ant-input-password {
+
+    &:hover {
+        border: 1px solid #000;
+    }
+
+}

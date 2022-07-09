@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import './ProductionItem.scss'
+import './ProductCard.scss'
 
 type Props = {
     id: string,
     thumbnail: string,
     name: string,
     price: number,
-    sale: number,
-    rate: number,
+    sale?: number,
+    rate?: number,
 }
 
 const ProductCard = (props: Props) => {
@@ -16,11 +16,7 @@ const ProductCard = (props: Props) => {
         id,
         thumbnail,
         name,
-        price,
-        sale,
-        rate } = props
-
-    console.log(id, sale, rate)
+        price, } = props
 
     return (
         <Link to={`/product/${id}`}>

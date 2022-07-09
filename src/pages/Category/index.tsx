@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Radio, Row } from 'antd'
+import { Checkbox, Col, Form, Radio, Row } from 'antd'
 import { useForm } from 'antd/lib/form/Form'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -49,6 +49,20 @@ const Category = (props: Props) => {
         })
     }, [])
 
+    useEffect(() => {
+        if (params?.category) {
+            form.setFieldsValue({
+                category: [params.category]
+            })
+        } else {
+            form.setFieldsValue({
+                category: [],
+                price: 0,
+                brand: [],
+            })
+        }
+    }, [form, params])
+
     return (
         <div className="category">
             <div className="hero">
@@ -61,56 +75,48 @@ const Category = (props: Props) => {
                         <Form form={form} onFinish={handleFilter}>
                             <ul>
                                 <h4>Category</h4>
-                                <Form.Item name={['category', 'charge']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Charge
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['category', 'case']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Case
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['category', 'headphone']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Headphone
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['category', 'temperedGlass']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Tempered Glass
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['category', 'protector']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Protector
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['category', 'other']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Other
-                                        </li>
-                                    </label>
+                                <Form.Item name='category'>
+                                    <Checkbox.Group>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'charge'} />
+                                                Charge
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'case'} />
+                                                Case
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'headphone'} />
+                                                Headphone
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'tempered-glass'} />
+                                                Tempered Glass
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'protector'} />
+                                                Protector
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'other'} />
+                                                Other
+                                            </li>
+                                        </label>
+
+                                    </Checkbox.Group>
                                 </Form.Item>
                             </ul>
-
                             <ul>
                                 <h4>Price</h4>
                                 <Form.Item
@@ -149,44 +155,40 @@ const Category = (props: Props) => {
                                     </Radio.Group>
                                 </Form.Item>
                             </ul>
-
                             <ul>
                                 <h4>Brand</h4>
-                                <Form.Item name={['brand', 'apple']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Apple
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['brand', 'magnolia']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Magnolia
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['brand', 'olive']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Olive
-                                        </li>
-                                    </label>
-                                </Form.Item>
-                                <Form.Item name={['brand', 'other']} valuePropName="checked">
-                                    <label>
-                                        <li>
-                                            <Checkbox />
-                                            Beats
-                                        </li>
-                                    </label>
+                                <Form.Item name='brand'>
+                                    <Checkbox.Group>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'apple'} />
+                                                Apple
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'magnolia'} />
+                                                Magnolia
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'olive'} />
+                                                Olive
+                                            </li>
+                                        </label>
+                                        <label>
+                                            <li>
+                                                <Checkbox value={'beats'} />
+                                                Beats
+                                            </li>
+                                        </label>
+                                    </Checkbox.Group>
                                 </Form.Item>
                             </ul>
-
-                            <Button htmlType='submit' block>Filter</Button>
+                            <Form.Item>
+                                <button type='submit' className='btn'>Filter</button>
+                            </Form.Item>
                         </Form>
                     </Col>
                     <Col md={20} xs={24}>

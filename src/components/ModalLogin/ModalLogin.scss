@@ -1,0 +1,64 @@
+.modal-login {
+
+    .ant-modal-content {
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .modal-content {
+        box-sizing: content-box;
+        padding: 1rem 3rem;
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .password {
+            margin-bottom: 0;
+        }
+
+        .forget-password {
+            text-align: right;
+            margin-bottom: 1rem;
+            margin-top: 0.2rem;
+
+            span {
+                &:hover {
+                    cursor: pointer;
+                    opacity: 0.6;
+                }
+            }
+        }
+
+        .register {
+            text-align: center;
+
+            span {
+                opacity: 0.6;
+
+                &:hover {
+                    cursor: pointer;
+                    opacity: 1;
+                }
+            }
+        }
+
+        .btn-submit {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+    }
+}
+
+@keyframes SwipeRight {
+    0% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(100%);
+    }
+}

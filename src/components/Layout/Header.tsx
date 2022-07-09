@@ -17,6 +17,10 @@ const Header = (props: Props) => {
     const category = useMemo(() => {
         return [
             {
+                name: 'All',
+                link: '/category'
+            },
+            {
                 name: 'Charge',
                 link: '/category/charge'
             },
@@ -55,9 +59,11 @@ const Header = (props: Props) => {
                     </div>
                 </Link>
                 <div className="feature">
-                    <img src={cart} alt="cart" width={30} />
                     {userState ?
-                        <img src={user} alt="user" width={30} />
+                        <>
+                            <img src={cart} alt="cart" width={30} />
+                            <img src={user} alt="user" width={30} />
+                        </>
                         :
                         <span onClick={() => setIsModalLogin(true)}>Login/Register</span>
                     }
