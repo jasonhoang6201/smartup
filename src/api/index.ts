@@ -1,67 +1,33 @@
-import axios, { AxiosRequestHeaders } from "axios";
-import { deleteCookie } from "src/helpers/cookie";
+import axios from "axios"
+import queryString from "query-string"
+import { deleteCookie } from "src/helpers/cookie"
 
-const instance = axios.create();
-
-class Api {
-    defaults;
-    interceptors;
-    constructor() {
-        this.defaults = instance.defaults;
-        this.interceptors = instance.interceptors;
-    }
-    get(url: string, params: object, headers?: AxiosRequestHeaders) {
-        return new Promise((resolve, reject) => {
-            instance
-                .get(url, { params, headers })
-                .then((data: object) => resolve(data))
-                .catch(reject);
-        });
-    }
-    post(url: string, data: any, params: object, headers?: AxiosRequestHeaders) {
-        return new Promise((resolve, reject) => {
-            instance
-                .post(url, data, { params, headers })
-                .then((data: object) => resolve(data))
-                .catch(reject);
-        });
-    }
-    put(url: string, data: any, params: object, headers?: AxiosRequestHeaders) {
-        return new Promise((resolve, reject) => {
-            instance
-                .put(url, data, { params, headers })
-                .then((data: object) => resolve(data))
-                .catch(reject);
-        });
-    }
-    delete(url: string, params: object, headers?: AxiosRequestHeaders) {
-        return new Promise((resolve, reject) => {
-            instance
-                .delete(url, { params, headers })
-                .then((data: object) => resolve(data))
-                .catch(reject);
-        });
-    }
-    patch(url: string, data: any, params: object, headers?: AxiosRequestHeaders) {
-        return new Promise((resolve, reject) => {
-            instance
-                .patch(url, data, { params, headers })
-                .then((data: object) => resolve(data))
-                .catch(reject);
-        });
-    }
+const apiConfig = {
+    baseURL: 'https://api.themoviedb.org/3/',
 }
 
-const api = new Api();
-api.defaults.baseURL = "htpp://localhost:3001/api"
-api.interceptors.response.use(
-    (response) => response.data,
-    (error) => {
-        if (error?.response?.status === 401) {
-            localStorage.removeItem("token");
-            deleteCookie("token");
-        }
-    }
-);
+const axiosClient = axios.create({
+    baseURL: apiConfig.baseURL,
+    headers: {
+        "Content-Type": "application/json",
+    },
+    paramsSerializer: params => queryString.stringify({ ...params })
+})
 
-export default api;
+axiosClient.interceptors.request.use(async (config) => config)
+axiosClient.interceptors.response.use((response) => {
+    if (response && response.data) {
+        return response.data
+    }
+    return response
+}, (error) => {
+    if (error?.response?.status === 401) {
+        localStorage.removeItem("token");
+        deleteCookie("token");
+    }
+})
+
+
+export {
+    axiosClient,
+}

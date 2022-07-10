@@ -3,6 +3,7 @@ import { useForm } from 'antd/lib/form/Form'
 import React from 'react'
 import './ModalLogin.scss'
 import logo from 'src/assets/images/logo.png'
+import userAPI from 'src/api/user'
 
 type Props = {
     visible: boolean,
@@ -20,8 +21,10 @@ const ModalLogin = (props: Props) => {
 
     const [modalType, setModalType] = React.useState(ModalType.Login)
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         console.log(form.getFieldsValue)
+        const res = await userAPI.login(form.getFieldsValue())
+        console.log(res)
     }
 
     const handleRegister = () => {
