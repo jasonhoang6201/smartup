@@ -1,34 +1,34 @@
 import { axiosClient } from ".";
 
 interface LoginRequest {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 interface LoginResponse {
-  errorCode?: boolean;
-  data: User;
+    errorCode: boolean | null;
+    data: User;
 }
 interface User {
-  id: number;
-  name: string;
-  email: string;
-  token: string;
+    id: number;
+    name: string;
+    email: string;
+    token: string;
 }
 
 interface VerifyResponse {
-  data: User;
+    errorCode: boolean | null;
+    data: User;
 }
 
 const userAPI = {
-  async login(data: LoginRequest): Promise<LoginResponse> {
-    const response = await axiosClient.post("/login", data);
-    console.log(response)
-    return response;
-  },
-  async verify(): Promise<VerifyResponse> {
-    const response = await axiosClient.get("/verify");
-    return response;
-  },
+    async login(data: LoginRequest): Promise<LoginResponse> {
+        const response: LoginResponse = await axiosClient.post("/login", data);
+        return response;
+    },
+    async verify(): Promise<VerifyResponse> {
+        const response: VerifyResponse = await axiosClient.get("/verify");
+        return response;
+    },
 };
 
 export default userAPI;

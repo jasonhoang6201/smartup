@@ -13,7 +13,6 @@ type Props = {}
 
 const Header = (props: Props) => {
     const userState: User = useSelector((state: any) => state.auth.user)
-    console.log(userState)
     const [isModalLogin, setIsModalLogin] = React.useState(false)
     const navigate = useNavigate();
     const { generate } = useRouting()
