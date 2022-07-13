@@ -4,7 +4,8 @@ import React from 'react'
 import './ModalLogin.scss'
 import logo from 'src/assets/images/logo.png'
 import userAPI from 'src/api/user'
-
+import { useDispatch } from 'react-redux'
+import { login } from "src/redux/auth";
 type Props = {
     visible: boolean,
     onCancel: () => void,
@@ -18,13 +19,19 @@ const ModalType = {
 
 const ModalLogin = (props: Props) => {
     const [form] = useForm()
+    const dispatch =useDispatch()
 
     const [modalType, setModalType] = React.useState(ModalType.Login)
 
     const handleLogin = async () => {
-        console.log(form.getFieldsValue)
         const res = await userAPI.login(form.getFieldsValue())
-        console.log(res)
+        if(!res){
+
+        }else{
+            localStorage.setItem("token", res.data.token)
+            dispatch(login(res.data))
+            props.onCancel();
+        }
     }
 
     const handleRegister = () => {

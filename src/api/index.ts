@@ -2,14 +2,18 @@ import axios from "axios"
 import queryString from "query-string"
 import { deleteCookie } from "src/helpers/cookie"
 
+const token = localStorage.getItem("token")
+
 const apiConfig = {
-    baseURL: 'https://api.themoviedb.org/3/',
+    baseURL: 'http://localhost:3001/',
+    token: token ? `${token}` : '',
 }
 
 const axiosClient = axios.create({
     baseURL: apiConfig.baseURL,
     headers: {
         "Content-Type": "application/json",
+        token: apiConfig.token,
     },
     paramsSerializer: params => queryString.stringify({ ...params })
 })
