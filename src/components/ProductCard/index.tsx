@@ -19,7 +19,7 @@ const ProductCard = (props: Props) => {
       <div className="production-card">
         <img src={thumbnail} alt="" width={"100%"} />
         <h1>{name}</h1>
-        <p>{price}</p>
+        <p>${price}</p>
       </div>
     </Link>
   );

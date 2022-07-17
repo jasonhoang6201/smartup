@@ -9,7 +9,6 @@ import QuantityButton from "src/components/QuantityButton";
 import useRouting from "src/hooks/UseRouting";
 import "./ProductDetail.scss";
 import productAPI, { Product }  from "src/api/products";
-import Item from "antd/lib/list/Item";
 type Props = {};
 export interface newProduct {
   id: string;
@@ -33,6 +32,7 @@ const ProductDetail = (props: Props) => {
   const [amount, setAmount] = React.useState(1);
   const [isModalLogin, setIsModalLogin] = React.useState(false);
   const [product , setProduct] = React.useState<newProduct | null>(null)
+  const [relatedProduct , setRelatedProduct] = React.useState<Array<Product>| null>([]);
   const navigate = useNavigate();
   const { generate } = useRouting();
   async function getData(id?: string){
@@ -41,7 +41,9 @@ const ProductDetail = (props: Props) => {
     setProduct({...res.data,
       newPrice: (parseFloat(res.data.price) * parseFloat(res.data.sale)).toFixed(2)
     })
+    setRelatedProduct(res.data.relatedProducts)
   }
+  console.log(relatedProduct)
   useEffect(() => {
     getData(params.id)
   }, [params]);
@@ -120,15 +122,15 @@ const ProductDetail = (props: Props) => {
       <div className="similar">
         <h1>You might also like</h1>
         <Row gutter={[30, 30]}>
-          {Array.from({ length: 4 }).map((_, index) => (
+          {relatedProduct?.map((item, index) => (
             <Col key={index} md={6} xs={12}>
               <ProductCard
-                id={index.toString()}
-                thumbnail="https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
-                name="Aesthetic Heart Brown Apple iPhone 13 Silicone Phone Case Cover"
-                price={"120"}
-                sale={"120"}
-                rate={4}
+                id={item.id}
+                thumbnail={item.image[0] ??"https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"}
+                name={item.name}
+                price={item.price}
+                sale={item.sale}
+                rate={item.rate}
               />
             </Col>
           ))}
