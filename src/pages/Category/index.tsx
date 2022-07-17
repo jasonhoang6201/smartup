@@ -208,9 +208,9 @@ const Category = (props: Props) => {
           <Col md={20} xs={24}>
             <div className="product-list">
               <Row gutter={[30, 30]}>
-                {products.map((item) => {
+                {products.map((item, index) => {
                   return (
-                    <Col md={6} xs={12}>
+                    <Col md={6} xs={12} key={index}>
                       <ProductCard
                         id={item.id}
                         name={item.name}
@@ -221,6 +221,7 @@ const Category = (props: Props) => {
                           item.image[0] ??
                           "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
                         }
+                        key={index}
                       />
                     </Col>
                   );

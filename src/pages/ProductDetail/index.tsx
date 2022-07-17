@@ -8,16 +8,43 @@ import ProductCard from "src/components/ProductCard";
 import QuantityButton from "src/components/QuantityButton";
 import useRouting from "src/hooks/UseRouting";
 import "./ProductDetail.scss";
-
+import productAPI, { Product }  from "src/api/products";
+import Item from "antd/lib/list/Item";
 type Props = {};
-
+export interface newProduct {
+  id: string;
+  name: string;
+  categoryId: string;
+  supplierId: string;
+  image: Array<string>;
+  price: string;
+  sale: string;
+  dimension: string;
+  warranty: string;
+  color: Array<string>;
+  sold: number;
+  rate?: number;
+  newPrice?: string
+  description: string;
+}
 const ProductDetail = (props: Props) => {
   const user = useSelector((state: any) => state.auth.user);
   const params = useParams();
   const [amount, setAmount] = React.useState(1);
   const [isModalLogin, setIsModalLogin] = React.useState(false);
+  const [product , setProduct] = React.useState<newProduct | null>(null)
   const navigate = useNavigate();
   const { generate } = useRouting();
+  async function getData(id?: string){
+    const res = await productAPI.getDetailProduct(id)
+    console.log(res)
+    setProduct({...res.data,
+      newPrice: (parseFloat(res.data.price) * parseFloat(res.data.sale)).toFixed(2)
+    })
+  }
+  useEffect(() => {
+    getData(params.id)
+  }, [params]);
 
   const handleAddToCard = () => {
     if (user) {
@@ -39,7 +66,7 @@ const ProductDetail = (props: Props) => {
         <Col md={8} xs={24}>
           <div className="product-detail-image">
             <img
-              src="https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
+              src={product?.image[0] ??"https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"}
               alt="product"
               width={"100%"}
             />
@@ -48,11 +75,11 @@ const ProductDetail = (props: Props) => {
         <Col md={16} xs={24}>
           <div className="product-detail-info">
             <h1>
-              Aesthetic Heart Brown Apple iPhone 13 Silicone Phone Case Cover
+              {product?.name}
             </h1>
             <div className="product-detail-info-price">
-              <span className="product-detail-info-price-sale">$120</span>
-              <span className="product-detail-info-price-origin">$200</span>
+              <span className="product-detail-info-price-sale">${product?.newPrice}</span>
+              <span className="product-detail-info-price-origin">${product?.price}</span>
             </div>
             <div className="product-detail-info-rate-count">
               <FaHeart color="red" />
@@ -65,18 +92,17 @@ const ProductDetail = (props: Props) => {
             <div className="product-detail-info-description">
               <h3>Description</h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Quibusdam et vitae similique ipsum esse, animi quasi
-                perspiciatis delectus architecto non vero officiis dolor
-                exercitationem in mollitia fugiat optio unde! Similique.
+                {product?.description}
               </p>
             </div>
             <div className="product-detail-info-color">
               <h3>Color:</h3>
               <Radio.Group className="radio-custom">
-                <Radio value="a">red</Radio>
-                <Radio value="b">blue</Radio>
-                <Radio value="c">green</Radio>
+                {product?.color.map((item, index)=>{
+                  return (
+                    <Radio value={item} key ={index}>{item}</Radio>
+                  )
+                })}
               </Radio.Group>
             </div>
             <div className="product-detail-info-quantity">

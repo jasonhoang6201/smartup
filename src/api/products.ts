@@ -4,6 +4,7 @@ import {objectToQueryString} from 'src/helpers/helperFunction'
 export interface Product {
   id: string;
   name: string;
+  description: string;
   categoryId: string;
   supplierId: string;
   image: Array<string>;
@@ -20,6 +21,12 @@ interface ProductsResponse {
   errorCode: boolean | null;
   data: Array<Product>;
 }
+
+interface ProductDetailResponse {
+  errorCode: boolean | null;
+  data: Product;
+}
+
 interface Query {
     page : number;
     limit: number;
@@ -33,7 +40,11 @@ const productAPI = {
         url += "?"+objectToQueryString(query)
     }
     const response: ProductsResponse = await axiosClient.get(url);
-    console.log(response);
+    return response;
+  },
+  async getDetailProduct(id ?: string): Promise<ProductDetailResponse> {
+    let url ='/product/'+`${id}`
+    const response: ProductDetailResponse = await axiosClient.get(url);
     return response;
   },
 };
