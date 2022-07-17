@@ -18,7 +18,7 @@ const Category = (props: Props) => {
   async function getProducts(currentPage = 1, append = false) {
     const query = {
       page: currentPage,
-      limit: 10,
+      limit: 8,
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {

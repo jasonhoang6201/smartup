@@ -16,7 +16,7 @@ const Home = (props: Props) => {
     async function getProducts() {
       const query = {
         page: 1,
-        limit: 5,
+        limit: 4,
       };
       const res = await productAPI.getProducts(query);
       if (res.errorCode) {
