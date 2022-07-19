@@ -36,15 +36,12 @@ const ProductDetail = (props: Props) => {
     React.useState<Array<Product> | null>([]);
   const navigate = useNavigate();
   const { generate } = useRouting();
-  async function getData(id?: string) {
-    const res = await productAPI.getDetailProduct(id);
-    setProduct({
-      ...res.data,
-      newPrice: (
-        parseFloat(res.data.price) * parseFloat(res.data.sale)
-      ).toFixed(2),
-    });
-    setRelatedProduct(res.data.relatedProducts);
+  async function getData(id?: string){
+    const res = await productAPI.getDetailProduct(id)
+    setProduct({...res.data,
+      newPrice: (parseFloat(res.data.price) * parseFloat(res.data.sale)).toFixed(2)
+    })
+    setRelatedProduct(res.data.relatedProducts)
   }
   useEffect(() => {
     getData(params.id);
