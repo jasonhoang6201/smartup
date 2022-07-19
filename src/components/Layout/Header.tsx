@@ -1,6 +1,6 @@
 import { Badge } from "antd";
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import cart from "src/assets/icons/cart.svg";
 import search from "src/assets/icons/search.svg";
@@ -11,11 +11,14 @@ import { User } from "src/redux/auth";
 import ModalLogin from "../ModalLogin";
 import "./Layout.scss";
 import Search from "src/components/Search";
+import cartAPI from "src/api/cart";
+import { handleCart } from "src/redux/cart";
 type Props = {};
 
 const Header = (props: Props) => {
   const userState: User = useSelector((state: any) => state.auth.user);
   const cartState = useSelector((state: any) => state.cart.number);
+  const dispatch = useDispatch();
   const [isModalLogin, setIsModalLogin] = React.useState(false);
   const navigate = useNavigate();
   const { generate } = useRouting();
@@ -52,6 +55,14 @@ const Header = (props: Props) => {
         link: "/category/other",
       },
     ];
+  }, []);
+
+  useEffect(() => {
+    cartAPI.getCart().then((res) => {
+      if (res?.data?.product) {
+        dispatch(handleCart(res.data.product.length));
+      }
+    });
   }, []);
 
   return (

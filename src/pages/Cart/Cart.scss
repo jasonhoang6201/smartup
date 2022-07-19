@@ -52,6 +52,14 @@
                             }
                         }
                     }
+
+                    .product-action {
+                        cursor: pointer;
+
+                        &:hover {
+                            color: #ff5a5f;
+                        }
+                    }
                 }
             }
         }
