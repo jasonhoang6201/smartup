@@ -3,17 +3,29 @@ import React, { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "src/components/ProductCard";
 import "./SearchResult.scss";
-
+import productAPI, { Product } from "src/api/products";
 type Props = {};
 
 const SearchResult = (props: Props) => {
   const location = useLocation();
   const keyword = location.search.split("=")[1].replaceAll("%20", " ");
-  const [result, setResult] = React.useState<Array<any>>([]);
-
+  const [result, setResult] = React.useState<Array<Product>>([]);
+  console.log(keyword)
+  async function getProducts(currentPage = 1, append = false) {
+    const query = {
+      page: currentPage,
+      limit: 8,
+      "filters[name]": keyword
+    };
+    const res = await productAPI.getProducts(query);
+    if (res.errorCode) {
+    } else {
+      setResult(append ? [...result, ...res.data] : res.data);
+    }
+  }
   useLayoutEffect(() => {
-    //call api trong này
-  }, []);
+    getProducts(1, false)
+  }, [keyword]);
 
   return (
     <div className="search-result">
@@ -27,7 +39,7 @@ const SearchResult = (props: Props) => {
                 price={item.price}
                 sale={item.sale}
                 rate={item.rate}
-                thumbnail={item.thumbnail}
+                thumbnail={item.image[0]}
                 key={index}
               />
             </Col>
