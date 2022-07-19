@@ -15,6 +15,7 @@ type Props = {};
 
 const Header = (props: Props) => {
   const userState: User = useSelector((state: any) => state.auth.user);
+  const cartState = useSelector((state: any) => state.cart.number);
   const [isModalLogin, setIsModalLogin] = React.useState(false);
   const navigate = useNavigate();
   const { generate } = useRouting();
@@ -67,7 +68,7 @@ const Header = (props: Props) => {
         <div className="feature">
           {userState ? (
             <>
-              <Badge count={5} overflowCount={10}>
+              <Badge count={cartState} overflowCount={10}>
                 <img
                   src={cart}
                   alt="cart"

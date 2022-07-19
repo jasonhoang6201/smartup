@@ -1,7 +1,7 @@
 import { Col, Radio, Row } from "antd";
 import React, { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import ModalLogin from "src/components/ModalLogin";
 import ProductCard from "src/components/ProductCard";
@@ -9,6 +9,7 @@ import QuantityButton from "src/components/QuantityButton";
 import useRouting from "src/hooks/UseRouting";
 import "./ProductDetail.scss";
 import productAPI, { Product } from "src/api/products";
+import { handleCart } from "src/redux/cart";
 type Props = {};
 export interface newProduct {
   id: string;
@@ -28,6 +29,8 @@ export interface newProduct {
 }
 const ProductDetail = (props: Props) => {
   const user = useSelector((state: any) => state.auth.user);
+  const cartState = useSelector((state: any) => state.cart.number);
+  const dispatch = useDispatch();
   const params = useParams();
   const [amount, setAmount] = React.useState(1);
   const [isModalLogin, setIsModalLogin] = React.useState(false);
@@ -36,12 +39,15 @@ const ProductDetail = (props: Props) => {
     React.useState<Array<Product> | null>([]);
   const navigate = useNavigate();
   const { generate } = useRouting();
-  async function getData(id?: string){
-    const res = await productAPI.getDetailProduct(id)
-    setProduct({...res.data,
-      newPrice: (parseFloat(res.data.price) * parseFloat(res.data.sale)).toFixed(2)
-    })
-    setRelatedProduct(res.data.relatedProducts)
+  async function getData(id?: string) {
+    const res = await productAPI.getDetailProduct(id);
+    setProduct({
+      ...res.data,
+      newPrice: (
+        parseFloat(res.data.price) * parseFloat(res.data.sale)
+      ).toFixed(2),
+    });
+    setRelatedProduct(res.data.relatedProducts);
   }
   useEffect(() => {
     getData(params.id);
@@ -49,6 +55,7 @@ const ProductDetail = (props: Props) => {
 
   const handleAddToCard = () => {
     if (user) {
+      dispatch(handleCart(cartState + 1));
     } else {
       setIsModalLogin(true);
     }
