@@ -32,11 +32,12 @@
                 }
             }
 
-            img:first-child {
-                margin-right: 2rem;
+            img:last-child {
+                margin-left: 2rem;
             }
 
-            span {
+
+            &>span {
                 font-size: 1.2rem;
                 color: #595959;
                 cursor: pointer;

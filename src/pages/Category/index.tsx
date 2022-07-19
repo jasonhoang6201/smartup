@@ -23,12 +23,13 @@ const Category = (props: Props) => {
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
     } else {
-      setProducts(append ? [...products,...res.data] : res.data);
+      setProducts(append ? [...products, ...res.data] : res.data);
     }
   }
+
   useEffect(() => {
     getProducts(1, false);
-    setPage(1)
+    setPage(1);
   }, [title]);
 
   const handleFilter = () => {

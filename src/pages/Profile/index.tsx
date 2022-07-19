@@ -44,7 +44,7 @@ const Profile = (props: Props) => {
         });
       }
     }
-  }, [user, navigate, generate, isEditProfile]);
+  }, [user, navigate, generate, isEditProfile, form]);
 
   return (
     <div className="profile">
