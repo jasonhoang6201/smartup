@@ -4,6 +4,7 @@ import Home from "src/pages/Home";
 import ProductDetail from "src/pages/ProductDetail";
 import Profile from "src/pages/Profile";
 import SearchResult from "src/pages/SearchResult";
+import Voucher from "src/pages/Voucher";
 
 export interface Routers {
   name: string;
@@ -46,6 +47,11 @@ const routers: Routers[] = [
     name: "Search",
     path: "/Search",
     element: SearchResult,
+  },
+  {
+    name: "voucher",
+    path: "/voucher",
+    element: Voucher,
   },
 ];
 

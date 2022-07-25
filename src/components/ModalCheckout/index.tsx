@@ -115,12 +115,27 @@ const ModalCheckout = (props: Props) => {
               </Col>
               <Col md={18}>
                 <Form.Item>
-                  <Select>
+                  <Select className="custom-select">
                     <Select.Option value={"free"}>
                       Giao hàng tiết kiệm
                     </Select.Option>
                     <Select.Option value={"normal"}>
                       Giao hàng nhanh
+                    </Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <h3>Voucher:</h3>
+              </Col>
+              <Col md={18}>
+                <Form.Item>
+                  <Select className="custom-select">
+                    <Select.Option value={""}>None</Select.Option>
+                    <Select.Option value={"free6"}>
+                      Tiết kiệm tháng 6
                     </Select.Option>
                   </Select>
                 </Form.Item>

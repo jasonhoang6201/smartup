@@ -13,6 +13,8 @@ import "./Layout.scss";
 import Search from "src/components/Search";
 import cartAPI from "src/api/cart";
 import { handleCart } from "src/redux/cart";
+import { FaTicketAlt } from "react-icons/fa";
+import { HiOutlineTicket } from "react-icons/hi";
 type Props = {};
 
 const Header = (props: Props) => {
@@ -79,6 +81,10 @@ const Header = (props: Props) => {
         <div className="feature">
           {userState ? (
             <>
+              <HiOutlineTicket
+                className="voucher-icon"
+                onClick={() => navigate(generate("voucher"))}
+              />
               <Badge count={cartState} overflowCount={10}>
                 <img
                   src={cart}
