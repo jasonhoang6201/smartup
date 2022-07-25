@@ -10,12 +10,12 @@ const SearchResult = (props: Props) => {
   const location = useLocation();
   const keyword = location.search.split("=")[1].replaceAll("%20", " ");
   const [result, setResult] = React.useState<Array<Product>>([]);
-  console.log(keyword)
+  console.log(keyword);
   async function getProducts(currentPage = 1, append = false) {
     const query = {
       page: currentPage,
       limit: 8,
-      "filters[name]": keyword
+      "filters[name]": keyword,
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
@@ -24,13 +24,13 @@ const SearchResult = (props: Props) => {
     }
   }
   useLayoutEffect(() => {
-    getProducts(1, false)
+    getProducts(1, false);
   }, [keyword]);
 
   return (
     <div className="search-result">
       {result.length > 0 ? (
-        <Row>
+        <Row gutter={[30, 30]}>
           {result.map((item, index) => (
             <Col key={index} md={6} xs={12}>
               <ProductCard

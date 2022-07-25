@@ -14,6 +14,7 @@ const Search = (props: Props) => {
 
   const handleSearch = (value: string) => {
     navigate(`/search?keyword=${value}`);
+    onClose();
   };
 
   return (
