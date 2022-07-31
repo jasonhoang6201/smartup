@@ -24,6 +24,7 @@ export interface newProduct {
   color: Array<string>;
   sold: number;
   rate?: number;
+
   newPrice?: string;
   description: string;
 }
@@ -43,9 +44,13 @@ const ProductDetail = (props: Props) => {
     const res = await productAPI.getDetailProduct(id);
     setProduct({
       ...res.data,
-      newPrice: (
-        parseFloat(res.data.price) * parseFloat(res.data.sale)
-      ).toFixed(2),
+      newPrice:
+        product?.sale && product?.sale !== "0"
+          ? (
+              parseFloat(res.data.price) -
+              (parseFloat(res.data.price) * parseFloat(res.data.sale)) / 100
+            ).toFixed(2)
+          : res.data.price,
     });
     setRelatedProduct(res.data.relatedProducts);
   }
@@ -60,6 +65,8 @@ const ProductDetail = (props: Props) => {
       setIsModalLogin(true);
     }
   };
+
+  console.log(product?.sale);
 
   useEffect(() => {
     window.scrollTo({
@@ -90,17 +97,29 @@ const ProductDetail = (props: Props) => {
               <span className="product-detail-info-price-sale">
                 ${product?.newPrice}
               </span>
-              <span className="product-detail-info-price-origin">
-                ${product?.price}
-              </span>
+              {product && product.sale !== "0" && (
+                <span className="product-detail-info-price-origin">
+                  ${product?.price}
+                </span>
+              )}
             </div>
             <div className="product-detail-info-rate-count">
-              <FaHeart color="red" />
-              <FaHeart color="red" />
-              <FaHeart color="red" />
-              <FaHeart color="red" />
-              <FaHeart color="red" />
-              <span>(20)</span>
+              {product?.rate ? (
+                <div>
+                  {Array.from(Array(product.rate)).map((item, index) => (
+                    <FaHeart key={index} color="red" />
+                  ))}
+                  {Array.from(Array(5 - product.rate)).map((item, index) => (
+                    <FaHeart key={index} color="grey" />
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {Array.from(Array(5)).map((item, index) => (
+                    <FaHeart key={index} color="grey" />
+                  ))}
+                </div>
+              )}
             </div>
             <div className="product-detail-info-description">
               <h3>Description</h3>
