@@ -21,8 +21,6 @@ const ProductCard = (props: Props) => {
       ).toFixed(2)
     : price;
 
-  console.log(rate);
-
   //array with 10 element
   const rateArray = Array.from(Array(10).keys());
 

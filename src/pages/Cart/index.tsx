@@ -106,7 +106,6 @@ const Cart = (props: Props) => {
     //   price: "120",
     // },
   ]);
-  console.log(data);
 
   const getData = async () => {
     const res = await cartAPI.getCart();

@@ -65,7 +65,7 @@ const Header = (props: Props) => {
         dispatch(handleCart(res.data.product.length));
       }
     });
-  }, []);
+  }, [userState]);
 
   return (
     <div className="header">

@@ -1,13 +1,14 @@
 import { DatePicker, Form, Input, InputNumber, Radio, Tabs } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import moment from "moment";
 import React, { useEffect } from "react";
 import { FaBoxes, FaLock, FaSignOutAlt, FaUserAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useRouting from "src/hooks/UseRouting";
 import { logout } from "src/redux/auth";
+import History from "./components/History";
 import "./Profile.scss";
-import moment from "moment";
 
 type Props = {};
 
@@ -19,6 +20,15 @@ const Profile = (props: Props) => {
   const dispatch = useDispatch();
 
   const [isEditProfile, setIsEditProfile] = React.useState(false);
+  const [historyData, setHistoryData] = React.useState([
+    {
+      id: "1",
+      date: "2020-01-01",
+      price: "100",
+      total: "100000",
+      status: "delivered",
+    },
+  ]);
 
   const handleChangeProfile = () => {
     const formData = form.getFieldsValue();
@@ -206,7 +216,9 @@ const Profile = (props: Props) => {
             </span>
           }
           key={"3"}
-        ></Tabs.TabPane>
+        >
+          <History data={historyData} />
+        </Tabs.TabPane>
         <Tabs.TabPane
           tab={
             <span>
