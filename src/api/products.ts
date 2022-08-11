@@ -21,6 +21,7 @@ export interface Product {
 interface ProductsResponse {
   errorCode: boolean | null;
   data: Array<Product>;
+  metadata: any
 }
 
 interface ProductDetailResponse {

@@ -13,6 +13,7 @@ const Category = (props: Props) => {
   const [title, setTitle] = React.useState("");
   const [form] = useForm();
   const [page, setPage] = React.useState(1);
+  const [totalPage, setTotalPage] = React.useState(0);
 
   const [products, setProducts] = React.useState<Array<Product>>([]);
   async function getProducts(currentPage = 1, append = false) {
@@ -24,6 +25,7 @@ const Category = (props: Props) => {
     if (res.errorCode) {
     } else {
       setProducts(append ? [...products, ...res.data] : res.data);
+      setTotalPage(res.metadata.recordTotal);
     }
   }
 
@@ -228,11 +230,13 @@ const Category = (props: Props) => {
                   );
                 })}
               </Row>
-              <div className="btn-view-more">
-                <button className="btn" onClick={() => handleLoadMore()}>
-                  Load more
-                </button>
-              </div>
+              {totalPage >= page * 8 && (
+                <div className="btn-view-more">
+                  <button className="btn" onClick={() => handleLoadMore()}>
+                    Load more
+                  </button>
+                </div>
+              )}
             </div>
           </Col>
         </Row>
