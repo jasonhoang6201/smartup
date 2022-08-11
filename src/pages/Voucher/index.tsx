@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import VoucherCard from "./components/VoucherCard";
 import "./Voucher.scss";
 import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { User } from "src/redux/auth";
 type Props = {};
 
@@ -59,6 +59,7 @@ const Voucher = (props: Props) => {
                   title={item.name}
                   description={item.description}
                   stock={item.stock}
+                  id={item.id}
                   isHad={false}
                 />
               </Col>
@@ -70,11 +71,12 @@ const Voucher = (props: Props) => {
             {youVouchers.map((item, idx) => (
               <Col md={12} xs={24} key={idx}>
                 <VoucherCard
-                  key={idx}
+                  key={item.id}
                   thumbnail="https://via.placeholder.com/150"
                   title={item.name}
                   description={item.description}
                   stock={item.stock}
+                  id={item.id}
                   isHad={true}
                 />
               </Col>

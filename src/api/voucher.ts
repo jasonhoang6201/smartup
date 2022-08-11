@@ -43,6 +43,11 @@ const voucherAPI = {
     const response: VoucherDetailResponse = await axiosClient.get(url);
     return response;
   },
+  async claimVoucher(id ?: string): Promise<VoucherDetailResponse> {
+    let url ='/claim/'+`${id}`
+    const response: VoucherDetailResponse = await axiosClient.post(url);
+    return response;
+  },
 };
 
 export default voucherAPI;
