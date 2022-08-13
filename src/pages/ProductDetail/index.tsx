@@ -52,7 +52,7 @@ const ProductDetail = (props: Props) => {
             ).toFixed(2)
           : res.data.price,
     });
-    setRelatedProduct(res.data.relatedProducts);
+    setRelatedProduct(res.data.relatedProducts?.data);
   }
   useEffect(() => {
     getData(params.id);

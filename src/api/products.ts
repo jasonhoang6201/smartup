@@ -15,7 +15,12 @@ export interface Product {
   color: Array<string>;
   sold: number;
   rate?: number;
-  relatedProducts: Array<Product> | null;
+  relatedProducts:  relatedProducts;
+}
+
+interface relatedProducts {
+  metadata: any,
+  data:  Array<Product> | null
 }
 
 interface ProductsResponse {
