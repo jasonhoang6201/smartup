@@ -21,20 +21,23 @@ const Cart = (props: Props) => {
 
   const [isCheckoutModal, setIsCheckoutModal] = React.useState(false);
 
-  const handleDeleteCart = (id: number) => {
+  const handleDeleteCart = (id: string) => {
+    const res = cartAPI.updateCart(id, 0);
     dispatch(handleCart(cartState - 1));
   };
 
-  const onChangeValue = async (value: number, index: number, id:string) => {
-    setData(
-      data.map((item, i) => {
-        if (i === index) {
-          const res = cartAPI.updateCart(item.code, value);
-          return { ...item, quantity: value };
-        }
-        return item;
-      })
-    );
+  const onChangeValue = async (value: number, index: number, id: string) => {
+    const res = await cartAPI.updateCart(id, value);
+    if (!res.errorCode) {
+      setData(
+        data.map((item, i) => {
+          if (i === index) {
+            return { ...item, quantity: value };
+          }
+          return item;
+        })
+      );
+    }
   };
 
   const columns = [
@@ -64,7 +67,7 @@ const Cart = (props: Props) => {
           <QuantityButton
             value={record.quantity}
             onChange={(value) => {
-              onChangeValue(value, index, record.id);
+              onChangeValue(value, index, record.code);
             }}
           />
         );
@@ -84,7 +87,7 @@ const Cart = (props: Props) => {
       render: (_: string, record: any) => {
         return (
           <div className="product-action">
-            <FaTimes onClick={() => handleDeleteCart(record.id)} />
+            <FaTimes onClick={() => handleDeleteCart(record.code)} />
           </div>
         );
       },
@@ -104,7 +107,7 @@ const Cart = (props: Props) => {
     } else {
       getData();
     }
-  }, [user, navigate]);
+  }, [user, navigate, cartState]);
 
   useLayoutEffect(() => {
     setSubTotal(

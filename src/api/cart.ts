@@ -41,14 +41,18 @@ const cartAPI = {
     }
     return response;
   },
-  async updateCart(id: string, quantity: number): Promise<CartResponse> {
+  async updateCart(id?: string, quantity?: number, isIncreased?: boolean): Promise<CartResponse> {
     let url = "/cart";
-    console.log(id)
-    const data = {
+    let data = {
       product: {
         code: id,
         quantity: quantity
-      }
+      },
+      isIncreased: isIncreased ?? false,
+      isDeleted: false
+    }
+    if(quantity === 0){
+      data.isDeleted = true
     }
     let response: CartResponse = await axiosClient.patch(url, data);
     return response;

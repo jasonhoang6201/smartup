@@ -9,6 +9,7 @@ import QuantityButton from "src/components/QuantityButton";
 import useRouting from "src/hooks/UseRouting";
 import "./ProductDetail.scss";
 import productAPI, { Product } from "src/api/products";
+import cartAPI, { ItemInCart } from "src/api/cart";
 import { handleCart } from "src/redux/cart";
 type Props = {};
 export interface newProduct {
@@ -58,15 +59,15 @@ const ProductDetail = (props: Props) => {
     getData(params.id);
   }, [params]);
 
-  const handleAddToCard = () => {
+  const handleAddToCard = (id?: string) => {
     if (user) {
+      cartAPI.updateCart(id, amount, true)
       dispatch(handleCart(cartState + 1));
     } else {
       setIsModalLogin(true);
     }
   };
 
-  console.log(product?.sale);
 
   useEffect(() => {
     window.scrollTo({
@@ -142,7 +143,7 @@ const ProductDetail = (props: Props) => {
               <QuantityButton value={amount} onChange={setAmount} />
             </div>
             <div className="product-detail-info-button">
-              <button className="btn" onClick={handleAddToCard}>
+              <button className="btn" onClick={()=>handleAddToCard(product?.id)}>
                 Add to cart
               </button>
             </div>
