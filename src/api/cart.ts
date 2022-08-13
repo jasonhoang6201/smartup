@@ -41,6 +41,18 @@ const cartAPI = {
     }
     return response;
   },
+  async updateCart(id: string, quantity: number): Promise<CartResponse> {
+    let url = "/cart";
+    console.log(id)
+    const data = {
+      product: {
+        code: id,
+        quantity: quantity
+      }
+    }
+    let response: CartResponse = await axiosClient.patch(url, data);
+    return response;
+  }
 };
 
 export default cartAPI;

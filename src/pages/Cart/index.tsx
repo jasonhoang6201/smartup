@@ -25,6 +25,18 @@ const Cart = (props: Props) => {
     dispatch(handleCart(cartState - 1));
   };
 
+  const onChangeValue = async (value: number, index: number, id:string) => {
+    setData(
+      data.map((item, i) => {
+        if (i === index) {
+          const res = cartAPI.updateCart(item.code, value);
+          return { ...item, quantity: value };
+        }
+        return item;
+      })
+    );
+  };
+
   const columns = [
     {
       title: "Product",
@@ -52,14 +64,7 @@ const Cart = (props: Props) => {
           <QuantityButton
             value={record.quantity}
             onChange={(value) => {
-              setData(
-                data.map((item, i) => {
-                  if (i === index) {
-                    return { ...item, quantity: value };
-                  }
-                  return item;
-                })
-              );
+              onChangeValue(value, index, record.id);
             }}
           />
         );
@@ -86,26 +91,7 @@ const Cart = (props: Props) => {
       width: "1%",
     },
   ];
-  const [data, setData] = React.useState<Array<ItemInCart>>([
-    // {
-    //   key: "1",
-    //   name: "Product 1",
-    //   description: "Description 1",
-    //   thumbnail:
-    //     "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp",
-    //   quantity: 1,
-    //   price: "120",
-    // },
-    // {
-    //   key: "2",
-    //   name: "Product 2",
-    //   description: "Description 2",
-    //   thumbnail:
-    //     "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp",
-    //   quantity: 2,
-    //   price: "120",
-    // },
-  ]);
+  const [data, setData] = React.useState<Array<ItemInCart>>([]);
 
   const getData = async () => {
     const res = await cartAPI.getCart();
