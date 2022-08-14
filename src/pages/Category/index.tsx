@@ -6,6 +6,7 @@ import hero from "src/assets/images/hero.png";
 import ProductCard from "src/components/ProductCard";
 import "./Category.scss";
 import productAPI, { Product } from "src/api/products";
+import supplierAPI, { Supplier } from "src/api/supplier";
 type Props = {};
 
 const Category = (props: Props) => {
@@ -16,10 +17,18 @@ const Category = (props: Props) => {
   const [totalPage, setTotalPage] = React.useState(0);
 
   const [products, setProducts] = React.useState<Array<Product>>([]);
-  async function getProducts(currentPage = 1, append = false) {
+  const [brands, setBrands] = React.useState<Array<Supplier>>([]);
+  async function getProducts(
+    currentPage = 1,
+    append = false,
+    category?: string,
+    brand?: string
+  ) {
     const query = {
       page: currentPage,
       limit: 8,
+      "filters[category]": category ?? "",
+      "filters[brand]": brand ?? "",
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
@@ -29,33 +38,76 @@ const Category = (props: Props) => {
     }
   }
 
+  async function getBrands() {
+    const res = await supplierAPI.getSuppliers();
+    if (res.errorCode) {
+    } else {
+      setBrands(res.data);
+    }
+  }
+
   useEffect(() => {
     getProducts(1, false);
     setPage(1);
+    getBrands();
   }, [title]);
+  console.log(brands)
 
-  const handleFilter = () => {
-    console.log(form.getFieldsValue());
+  const handleFilter = async () => {
+    let category = "";
+    let brand = "";
+    if (form.getFieldValue("brand")) {
+      const brandArray = form.getFieldValue("brand");
+      brandArray.map((item: string, index: number) => {
+        if (index === 0) {
+          brand += item;
+        } else {
+          brand += "," + item;
+        }
+      });
+    }
+    if (form.getFieldValue("category")) {
+      const categoryArray = form.getFieldValue("category");
+      categoryArray.map((item: string, index: number) => {
+        if (index === 0) {
+          category += item;
+        } else {
+          category += "," + item;
+        }
+      });
+    }
+    if (form.getFieldValue("price")) {
+      // const brandArray = form.getFieldValue("price");
+      // brandArray.map((item: string, index: number) => {
+      //   if (index === 0) {
+      //     brand += item;
+      //   } else {
+      //     brand += "," + item;
+      //   }
+      // });
+    }
+    await getProducts(1, false, category, brand);
+    setPage(1);
   };
 
   useLayoutEffect(() => {
     switch (params.category) {
-      case "charge":
+      case "Charge":
         setTitle("Charge");
         break;
-      case "case":
+      case "Case":
         setTitle("Case");
         break;
-      case "headphone":
+      case "Headphone":
         setTitle("Headphone");
         break;
-      case "tempered-glass":
+      case "Tempered Glass":
         setTitle("Tempered Glass");
         break;
-      case "protector":
+      case "Protector":
         setTitle("Protector");
         break;
-      case "other":
+      case "Other":
         setTitle("Other");
         break;
       default:
@@ -86,7 +138,30 @@ const Category = (props: Props) => {
     }
   }, [form, params]);
   const handleLoadMore = async () => {
-    await getProducts(page + 1, true);
+    let category = "";
+    let brand = "";
+    if (form.getFieldValue("brand")) {
+      const brandArray = form.getFieldValue("brand");
+      brandArray.map((item: string, index: number) => {
+        if (index === 0) {
+          brand += item;
+        } else {
+          brand += "," + item;
+        }
+      });
+    }
+    if (form.getFieldValue("category")) {
+      console.log(form.getFieldValue("category"));
+      const categoryArray = form.getFieldValue("category");
+      categoryArray.map((item: string, index: number) => {
+        if (index === 0) {
+          category += item;
+        } else {
+          category += "," + item;
+        }
+      });
+    }
+    await getProducts(page + 1, true, category, brand);
     setPage(page + 1);
   };
 
@@ -106,37 +181,37 @@ const Category = (props: Props) => {
                   <Checkbox.Group>
                     <label>
                       <li>
-                        <Checkbox value={"charge"} />
+                        <Checkbox value={"Charge"} />
                         Charge
                       </li>
                     </label>
                     <label>
                       <li>
-                        <Checkbox value={"case"} />
+                        <Checkbox value={"Case"} />
                         Case
                       </li>
                     </label>
                     <label>
                       <li>
-                        <Checkbox value={"headphone"} />
+                        <Checkbox value={"Headphone"} />
                         Headphone
                       </li>
                     </label>
                     <label>
                       <li>
-                        <Checkbox value={"tempered glass"} />
+                        <Checkbox value={"Tempered Glass"} />
                         Tempered Glass
                       </li>
                     </label>
                     <label>
                       <li>
-                        <Checkbox value={"protector"} />
+                        <Checkbox value={"Protector"} />
                         Protector
                       </li>
                     </label>
                     <label>
                       <li>
-                        <Checkbox value={"other"} />
+                        <Checkbox value={"Other"} />
                         Other
                       </li>
                     </label>
@@ -174,30 +249,16 @@ const Category = (props: Props) => {
                 <h4>Brand</h4>
                 <Form.Item name="brand">
                   <Checkbox.Group>
-                    <label>
-                      <li>
-                        <Checkbox value={"apple"} />
-                        Apple
-                      </li>
-                    </label>
-                    <label>
-                      <li>
-                        <Checkbox value={"magnolia"} />
-                        Magnolia
-                      </li>
-                    </label>
-                    <label>
-                      <li>
-                        <Checkbox value={"olive"} />
-                        Olive
-                      </li>
-                    </label>
-                    <label>
-                      <li>
-                        <Checkbox value={"beats"} />
-                        Beats
-                      </li>
-                    </label>
+                    {brands.map((item) => {
+                      return (
+                        <label>
+                          <li>
+                            <Checkbox value={item.companyName} />
+                            {item.companyName}
+                          </li>
+                        </label>
+                      );
+                    })}
                   </Checkbox.Group>
                 </Form.Item>
               </ul>
@@ -230,7 +291,7 @@ const Category = (props: Props) => {
                   );
                 })}
               </Row>
-              {totalPage >= page * 8 && (
+              {totalPage > page * 8 && (
                 <div className="btn-view-more">
                   <button className="btn" onClick={() => handleLoadMore()}>
                     Load more

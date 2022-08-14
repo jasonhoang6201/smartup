@@ -126,7 +126,7 @@ const ProductDetail = (props: Props) => {
               <h3>Description</h3>
               <p>{product?.description}</p>
             </div>
-            <div className="product-detail-info-color">
+            {/* <div className="product-detail-info-color">
               <h3>Color:</h3>
               <Radio.Group className="radio-custom">
                 {product?.color.map((item, index) => {
@@ -137,7 +137,7 @@ const ProductDetail = (props: Props) => {
                   );
                 })}
               </Radio.Group>
-            </div>
+            </div> */}
             <div className="product-detail-info-quantity">
               <h3>Amount:</h3>
               <QuantityButton value={amount} onChange={setAmount} />
