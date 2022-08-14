@@ -22,13 +22,15 @@ const Category = (props: Props) => {
     currentPage = 1,
     append = false,
     category?: string,
-    brand?: string
+    brand?: string,
+    price?: number
   ) {
     const query = {
       page: currentPage,
       limit: 8,
       "filters[category]": category ?? "",
       "filters[brand]": brand ?? "",
+      "filters[price]": price!== null && price !== -1 ? price : "",
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
@@ -51,7 +53,6 @@ const Category = (props: Props) => {
     setPage(1);
     getBrands();
   }, [title]);
-  console.log(brands)
 
   const handleFilter = async () => {
     let category = "";
@@ -76,17 +77,8 @@ const Category = (props: Props) => {
         }
       });
     }
-    if (form.getFieldValue("price")) {
-      // const brandArray = form.getFieldValue("price");
-      // brandArray.map((item: string, index: number) => {
-      //   if (index === 0) {
-      //     brand += item;
-      //   } else {
-      //     brand += "," + item;
-      //   }
-      // });
-    }
-    await getProducts(1, false, category, brand);
+    const price = form.getFieldValue("price");
+    await getProducts(1, false, category, brand, price);
     setPage(1);
   };
 
@@ -126,13 +118,13 @@ const Category = (props: Props) => {
     if (params?.category) {
       form.setFieldsValue({
         category: [params.category],
-        price: 0,
+        price: -1,
         brand: [],
       });
     } else {
       form.setFieldsValue({
         category: [],
-        price: 0,
+        price: -1,
         brand: [],
       });
     }
@@ -151,7 +143,6 @@ const Category = (props: Props) => {
       });
     }
     if (form.getFieldValue("category")) {
-      console.log(form.getFieldValue("category"));
       const categoryArray = form.getFieldValue("category");
       categoryArray.map((item: string, index: number) => {
         if (index === 0) {
@@ -220,7 +211,7 @@ const Category = (props: Props) => {
               </ul>
               <ul>
                 <h4>Price</h4>
-                <Form.Item name="price" initialValue={0}>
+                <Form.Item name="price">
                   <Radio.Group>
                     <label>
                       <li>
@@ -249,9 +240,9 @@ const Category = (props: Props) => {
                 <h4>Brand</h4>
                 <Form.Item name="brand">
                   <Checkbox.Group>
-                    {brands.map((item) => {
+                    {brands.map((item, index) => {
                       return (
-                        <label>
+                        <label key = {index}>
                           <li>
                             <Checkbox value={item.companyName} />
                             {item.companyName}
