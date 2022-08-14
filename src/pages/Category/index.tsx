@@ -21,6 +21,7 @@ const Category = (props: Props) => {
   async function getProducts(
     currentPage = 1,
     append = false,
+    needParams = false,
     category?: string,
     brand?: string,
     price?: number
@@ -28,9 +29,12 @@ const Category = (props: Props) => {
     const query = {
       page: currentPage,
       limit: 8,
-      "filters[category]": category ?? "",
+      "filters[category]":
+        needParams && params.category && params.category !== "All Products"
+          ? params.category
+          : category ?? "",
       "filters[brand]": brand ?? "",
-      "filters[price]": price!== null ? price : "",
+      "filters[price]": price ?? 4,
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
@@ -49,10 +53,10 @@ const Category = (props: Props) => {
   }
 
   useEffect(() => {
-    getProducts(1, false);
+    getProducts(1, false, true);
     setPage(1);
     getBrands();
-  }, [title]);
+  }, [title, params]);
 
   const handleFilter = async () => {
     let category = "";
@@ -78,7 +82,7 @@ const Category = (props: Props) => {
       });
     }
     const price = form.getFieldValue("price");
-    await getProducts(1, false, category, brand, price);
+    await getProducts(1, false, false, category, brand, price);
     setPage(1);
   };
 
@@ -115,6 +119,7 @@ const Category = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    console.log(params?.category);
     if (params?.category) {
       form.setFieldsValue({
         category: [params.category],
@@ -153,7 +158,7 @@ const Category = (props: Props) => {
       });
     }
     const price = form.getFieldValue("price");
-    await getProducts(page + 1, true, category, brand, price);
+    await getProducts(page + 1, true, false, category, brand, price);
     setPage(page + 1);
   };
 
@@ -248,7 +253,7 @@ const Category = (props: Props) => {
                   <Checkbox.Group>
                     {brands.map((item, index) => {
                       return (
-                        <label key = {index}>
+                        <label key={index}>
                           <li>
                             <Checkbox value={item.companyName} />
                             {item.companyName}
