@@ -30,7 +30,7 @@ const Category = (props: Props) => {
       limit: 8,
       "filters[category]": category ?? "",
       "filters[brand]": brand ?? "",
-      "filters[price]": price!== null && price !== -1 ? price : "",
+      "filters[price]": price!== null ? price : "",
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
@@ -118,13 +118,13 @@ const Category = (props: Props) => {
     if (params?.category) {
       form.setFieldsValue({
         category: [params.category],
-        price: -1,
+        price: 4,
         brand: [],
       });
     } else {
       form.setFieldsValue({
         category: [],
-        price: -1,
+        price: 4,
         brand: [],
       });
     }
@@ -152,7 +152,8 @@ const Category = (props: Props) => {
         }
       });
     }
-    await getProducts(page + 1, true, category, brand);
+    const price = form.getFieldValue("price");
+    await getProducts(page + 1, true, category, brand, price);
     setPage(page + 1);
   };
 
@@ -211,7 +212,7 @@ const Category = (props: Props) => {
               </ul>
               <ul>
                 <h4>Price</h4>
-                <Form.Item name="price">
+                <Form.Item name="price" initialValue={4}>
                   <Radio.Group>
                     <label>
                       <li>
@@ -231,6 +232,11 @@ const Category = (props: Props) => {
                     <label>
                       <li>
                         <Radio value={3}>$200+</Radio>
+                      </li>
+                    </label>
+                    <label>
+                      <li>
+                        <Radio value={4}>All Price</Radio>
                       </li>
                     </label>
                   </Radio.Group>
