@@ -8,11 +8,15 @@ interface LoginResponse {
   errorCode: boolean | null;
   data: User;
 }
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
-  token: string;
+  token: any;
+  address: string;
+  phone: string;
+  gender: string;
+  birthday: string;
 }
 
 interface VerifyResponse {
@@ -27,6 +31,11 @@ const userAPI = {
   },
   async verify(): Promise<VerifyResponse> {
     const response: VerifyResponse = await axiosClient.get("/verify");
+    return response;
+  },
+  async update(data: User): Promise<VerifyResponse> {
+    let url = "/user/" + `${data.email}`;
+    const response: VerifyResponse = await axiosClient.patch(url, data);
     return response;
   },
 };

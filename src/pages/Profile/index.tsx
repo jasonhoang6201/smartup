@@ -8,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 import useRouting from "src/hooks/UseRouting";
 import { logout } from "src/redux/auth";
 import History from "./components/History";
+import userAPI from "src/api/user";
 import "./Profile.scss";
+import { login } from "src/redux/auth";
 
 type Props = {};
 
@@ -29,10 +31,16 @@ const Profile = (props: Props) => {
       status: "delivered",
     },
   ]);
-
-  const handleChangeProfile = () => {
-    const formData = form.getFieldsValue();
-    delete formData.email;
+  const handleChangeProfile = async () => {
+    let formData = form.getFieldsValue();
+    formData.birthday = moment(formData.birthday).format("DD/MM/YYYY")
+    let res = await userAPI.update(formData);
+    if(!res.errorCode){
+      setIsEditProfile(false)
+      const token = localStorage.getItem("token")
+      res.data.token = token
+      dispatch(login(res.data))
+    }
   };
 
   const handleChangePassword = () => {};
@@ -49,13 +57,12 @@ const Profile = (props: Props) => {
       //navigate(generate('home'))
       if (!isEditProfile) {
         form.setFieldsValue({
-          user,
-          birthday: moment(user.birthday, "DD/MM/YYYY"),
+          ...user,
+          birthday: moment(user.birthday),
         });
       }
     }
   }, [user, navigate, generate, isEditProfile, form]);
-
   return (
     <div className="profile">
       <Tabs
@@ -92,11 +99,6 @@ const Profile = (props: Props) => {
             <Form.Item
               name="birthday"
               label="Date of birth"
-              initialValue={
-                user.birthday
-                  ? moment(user.birthday, "DD/MM/YYYY")
-                  : moment(new Date(), "DD/MM/YYYY")
-              }
             >
               <DatePicker
                 format={"DD/MM/YYYY"}
