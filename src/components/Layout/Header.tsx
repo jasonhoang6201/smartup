@@ -34,27 +34,27 @@ const Header = (props: Props) => {
       },
       {
         name: "Charge",
-        link: "/category/charge",
+        link: "/category/Charge",
       },
       {
         name: "Case",
-        link: "/category/case",
+        link: "/category/Case",
       },
       {
         name: "Headphone",
-        link: "/category/headphone",
+        link: "/category/Headphone",
       },
       {
         name: "Tempered Glass",
-        link: "/category/tempered-glass",
+        link: "/category/Tempered Glass",
       },
       {
         name: "Protector",
-        link: "/category/protector",
+        link: "/category/Protector",
       },
       {
         name: "Other",
-        link: "/category/other",
+        link: "/category/Other",
       },
     ];
   }, []);

@@ -1,5 +1,5 @@
 import { axiosClient } from ".";
-import {objectToQueryString} from 'src/helpers/helperFunction'
+import { objectToQueryString } from "src/helpers/helperFunction";
 
 export interface Product {
   id: string;
@@ -15,18 +15,18 @@ export interface Product {
   color: Array<string>;
   sold: number;
   rate?: number;
-  relatedProducts:  relatedProducts;
+  relatedProducts: relatedProducts;
 }
 
 interface relatedProducts {
-  metadata: any,
-  data:  Array<Product> | null
+  metadata: any;
+  data: Array<Product> | null;
 }
 
 interface ProductsResponse {
   errorCode: boolean | null;
   data: Array<Product>;
-  metadata: any
+  metadata: any;
 }
 
 interface ProductDetailResponse {
@@ -34,23 +34,23 @@ interface ProductDetailResponse {
   data: Product;
 }
 
-interface Query {
-    page : number;
-    limit: number;
-    filter?: string;
+export interface QueryProduct {
+  page: number;
+  limit: number;
+  filter?: string;
 }
 
 const productAPI = {
-  async getProducts(query ?: Query): Promise<ProductsResponse> {
-    let url ='/product'
-    if(query){
-        url += "?"+objectToQueryString(query)
+  async getProducts(query?: QueryProduct): Promise<ProductsResponse> {
+    let url = "/product";
+    if (query) {
+      url += "?" + objectToQueryString(query);
     }
     const response: ProductsResponse = await axiosClient.get(url);
     return response;
   },
-  async getDetailProduct(id ?: string): Promise<ProductDetailResponse> {
-    let url ='/product/'+`${id}`
+  async getDetailProduct(id?: string): Promise<ProductDetailResponse> {
+    let url = "/product/" + `${id}`;
     const response: ProductDetailResponse = await axiosClient.get(url);
     return response;
   },
