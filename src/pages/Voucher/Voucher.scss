@@ -1,37 +1,38 @@
 .voucher {
-    padding: 3rem 5rem;
+  padding: 3rem 5rem;
+  margin-bottom: 5rem;
 
-    .ant-tabs-tab {
-        transition: all 0.2s ease-in-out;
+  .ant-tabs-tab {
+    transition: all 0.2s ease-in-out;
 
-        &.ant-tabs-tab-active {
-            background-color: #000;
+    &.ant-tabs-tab-active {
+      background-color: #000;
 
-            .ant-tabs-tab-btn {
-                span {
-                    color: #FFF;
-                }
-            }
+      .ant-tabs-tab-btn {
+        span {
+          color: #fff;
         }
-
-        .ant-tabs-tab-btn {
-            span {
-                display: flex;
-                align-items: center;
-                color: #000;
-
-                svg {
-                    margin-right: 0.5rem;
-                }
-            }
-
-            &:hover {
-                color: #000;
-            }
-        }
+      }
     }
 
-    .ant-tabs-ink-bar {
-        display: none;
+    .ant-tabs-tab-btn {
+      span {
+        display: flex;
+        align-items: center;
+        color: #000;
+
+        svg {
+          margin-right: 0.5rem;
+        }
+      }
+
+      &:hover {
+        color: #000;
+      }
     }
+  }
+
+  .ant-tabs-ink-bar {
+    display: none;
+  }
 }

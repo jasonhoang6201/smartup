@@ -1,4 +1,4 @@
-import { Col, Radio, Row } from "antd";
+import { Col, notification, Radio, Row } from "antd";
 import React, { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import useRouting from "src/hooks/UseRouting";
 import "./ProductDetail.scss";
 import productAPI, { Product } from "src/api/products";
 import cartAPI, { ItemInCart } from "src/api/cart";
-import { handleCart } from "src/redux/cart";
+import { addCart } from "src/redux/cart";
 type Props = {};
 export interface newProduct {
   id: string;
@@ -31,7 +31,7 @@ export interface newProduct {
 }
 const ProductDetail = (props: Props) => {
   const user = useSelector((state: any) => state.auth.user);
-  const cartState = useSelector((state: any) => state.cart.number);
+  const cartState = useSelector((state: any) => state.cart.productLength);
   const dispatch = useDispatch();
   const params = useParams();
   const [amount, setAmount] = React.useState(1);
@@ -59,15 +59,24 @@ const ProductDetail = (props: Props) => {
     getData(params.id);
   }, [params]);
 
-  const handleAddToCard = (id?: string) => {
+  const handleAddToCard = async (id: string) => {
     if (user) {
-      cartAPI.updateCart(id, amount, true)
-      dispatch(handleCart(cartState + 1));
+      const res = await cartAPI.updateCart(id, amount, true);
+      if (res.errorCode) {
+        notification.error({
+          message: "Error",
+          description: "Something went wrong",
+          duration: 1000,
+        });
+      } else {
+        if (!cartState.includes(id)) {
+          dispatch(addCart(id));
+        }
+      }
     } else {
       setIsModalLogin(true);
     }
   };
-
 
   useEffect(() => {
     window.scrollTo({
@@ -143,7 +152,10 @@ const ProductDetail = (props: Props) => {
               <QuantityButton value={amount} onChange={setAmount} />
             </div>
             <div className="product-detail-info-button">
-              <button className="btn" onClick={()=>handleAddToCard(product?.id)}>
+              <button
+                className="btn"
+                onClick={() => handleAddToCard(product?.id || "")}
+              >
                 Add to cart
               </button>
             </div>

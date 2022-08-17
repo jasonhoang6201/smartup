@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { notification, Table } from "antd";
 import React, { useEffect, useLayoutEffect } from "react";
 import { FaTimes, FaTimesCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,13 +7,13 @@ import cartAPI, { ItemInCart } from "src/api/cart";
 import ModalCheckout from "src/components/ModalCheckout";
 import QuantityButton from "src/components/QuantityButton";
 import useRouting from "src/hooks/UseRouting";
-import { handleCart } from "src/redux/cart";
+import { removeCart } from "src/redux/cart";
 import "./Cart.scss";
 type Props = {};
 
 const Cart = (props: Props) => {
   const user = useSelector((state: any) => state.auth.user);
-  const cartState = useSelector((state: any) => state.cart.number);
+  const cartState = useSelector((state: any) => state.cart.productLength);
   const dispatch = useDispatch();
   const [subTotal, setSubTotal] = React.useState(0);
   const navigate = useNavigate();
@@ -21,9 +21,17 @@ const Cart = (props: Props) => {
 
   const [isCheckoutModal, setIsCheckoutModal] = React.useState(false);
 
-  const handleDeleteCart = (id: string) => {
-    const res = cartAPI.updateCart(id, 0);
-    dispatch(handleCart(cartState - 1));
+  const handleDeleteCart = async (id: string) => {
+    const res = await cartAPI.updateCart(id, 0);
+    if (res.errorCode) {
+      notification.error({
+        message: "Error",
+        description: "Something went wrong",
+        duration: 1000,
+      });
+    } else {
+      dispatch(removeCart(id));
+    }
   };
 
   const onChangeValue = async (value: number, index: number, id: string) => {

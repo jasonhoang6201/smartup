@@ -12,14 +12,14 @@ import ModalLogin from "../ModalLogin";
 import "./Layout.scss";
 import Search from "src/components/Search";
 import cartAPI from "src/api/cart";
-import { handleCart } from "src/redux/cart";
+import { setCart } from "src/redux/cart";
 import { FaTicketAlt } from "react-icons/fa";
 import { HiOutlineTicket } from "react-icons/hi";
 type Props = {};
 
 const Header = (props: Props) => {
   const userState: User = useSelector((state: any) => state.auth.user);
-  const cartState = useSelector((state: any) => state.cart.number);
+  const cartState = useSelector((state: any) => state.cart.productLength);
   const dispatch = useDispatch();
   const [isModalLogin, setIsModalLogin] = React.useState(false);
   const navigate = useNavigate();
@@ -61,8 +61,9 @@ const Header = (props: Props) => {
 
   useEffect(() => {
     cartAPI.getCart().then((res) => {
-      if (res?.data?.product) {
-        dispatch(handleCart(res.data.product.length));
+      const products = res?.data?.product;
+      if (products) {
+        dispatch(setCart(products.map((item) => item.code)));
       }
     });
   }, [userState]);
@@ -85,7 +86,7 @@ const Header = (props: Props) => {
                 className="voucher-icon"
                 onClick={() => navigate(generate("voucher"))}
               />
-              <Badge count={cartState} overflowCount={10}>
+              <Badge count={cartState.length} overflowCount={10}>
                 <img
                   src={cart}
                   alt="cart"

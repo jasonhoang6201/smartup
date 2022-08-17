@@ -1,21 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  number: 0,
+interface ICartState {
+  productLength: string[];
+}
+
+const initialState: ICartState = {
+  productLength: [],
 };
 
 export const authSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    handleCart: (state, action) => {
+    setCart: (state, action) => {
+      state.productLength = action.payload;
+    },
+    addCart: (state, action: { payload: string }) => {
       if (action.payload) {
-        state.number = action.payload;
+        state.productLength = [...state.productLength, action.payload];
+      }
+    },
+    removeCart: (state, action: { payload: string }) => {
+      if (action.payload) {
+        state.productLength = state.productLength.filter(
+          (product) => product !== action.payload
+        );
       }
     },
   },
 });
 
-export const { handleCart } = authSlice.actions;
+export const { addCart, removeCart, setCart } = authSlice.actions;
 
 export default authSlice.reducer;
