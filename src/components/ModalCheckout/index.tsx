@@ -18,14 +18,20 @@ import shippingApi, { Shipping as IShipping } from "src/api/shipping";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { User } from "src/redux/auth";
+import location from "src/location/location.json";
+
 type Props = {
   total: number;
   visible: boolean;
   onCancel: () => void;
 };
-
+interface Location {
+  name: string;
+  value: number;
+}
 const ModalCheckout = (props: Props) => {
   const { total = 0, visible = false, onCancel = () => {} } = props;
+  const [district, setDistrict] = useState<Array<any>>([]);
   const [vouchers, setVoucher] = useState<Array<IVoucher>>([]);
   const [shipping, setShipping] = useState<Array<IShipping>>([]);
   const [shippingFee, setShippingFee] = useState(0);
@@ -70,16 +76,22 @@ const ModalCheckout = (props: Props) => {
       const tempShipping = shipping.filter(
         (item) => item.type === form.getFieldValue("shippingMethod")
       )[0];
-      if (tempShipping) {
-        if (value.city === "hn") {
+      if (value.city === "hn") {
+        setDistrict(location.hn);
+        if (tempShipping) {
           setShippingFee(tempShipping.hn);
-        } else if (value.city === "hcm") {
+        }
+      } else if (value.city === "hcm") {
+        setDistrict(location.hcm);
+        if (tempShipping) {
           setShippingFee(tempShipping.hcm);
         }
       }
     }
   };
+  console.log(district);
   useEffect(() => {
+    setDistrict(location.hcm);
     getShipping();
     getYourVouchers(1, false, userState.id);
   }, []);
@@ -113,24 +125,6 @@ const ModalCheckout = (props: Props) => {
             </Row>
             <Row>
               <Col md={6}>
-                <h3>Address:</h3>
-              </Col>
-              <Col md={18}>
-                <Form.Item
-                  name={"address"}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your address!",
-                    },
-                  ]}
-                >
-                  <Input className="custom-input" placeholder="Address" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
                 <h3>City:</h3>
               </Col>
               <Col md={18}>
@@ -150,6 +144,51 @@ const ModalCheckout = (props: Props) => {
                 </Form.Item>
               </Col>
             </Row>
+            <Row>
+              <Col md={6}>
+                <h3>District:</h3>
+              </Col>
+              <Col md={18}>
+                <Form.Item
+                  name="district"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your district!",
+                    },
+                  ]}
+                >
+                  <Select className="custom-select">
+                    {district.map((item) => {
+                      return (
+                        <Select.Option value={item.value} key={item.name}>
+                          {item.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <h3>Address:</h3>
+              </Col>
+              <Col md={18}>
+                <Form.Item
+                  name={"address"}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your address!",
+                    },
+                  ]}
+                >
+                  <Input className="custom-input" placeholder="Address" />
+                </Form.Item>
+              </Col>
+            </Row>
+
             <Row>
               <Col md={6}>
                 <h3>Phone:</h3>
