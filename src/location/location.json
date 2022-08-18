@@ -1,0 +1,214 @@
+{
+  "hcm": [
+    {
+      "name": "Quận 1",
+      "value": "Quận 1"
+    },
+    {
+      "name": "Quận 2",
+      "value": "Quận 2"
+    },
+    {
+      "name": "Quận 3",
+      "value": "Quận 3"
+    },
+    {
+      "name": "Quận 4",
+      "value": "Quận 4"
+    },
+    {
+      "name": "Quận 5",
+      "value": "Quận 5"
+    },
+    {
+      "name": "Quận 6",
+      "value": "Quận 6"
+    },
+    {
+      "name": "Quận 7",
+      "value": "Quận 7"
+    },
+    {
+      "name": "Quận 8",
+      "value": "Quận 8"
+    },
+    {
+      "name": "Quận 10",
+      "value": "Quận 10"
+    },
+    {
+      "name": "Quận 11",
+      "value": "Quận 11"
+    },
+    {
+      "name": "Quận 12",
+      "value": "Quận 12"
+    },
+    {
+      "name": "Quận Bình Tân",
+      "value": "Quận Bình Tân"
+    },
+    {
+      "name": "Quận Bình Thạnh",
+      "value": "Quận Bình Thạnh"
+    },
+    {
+      "name": "Quận Tân Phú",
+      "value": "Quận Tân Phú"
+    },
+    {
+      "name": "Quận Tân Bình",
+      "value": "Quận Tân Bình"
+    },
+    {
+      "name": "Quận Gò Vấp",
+      "value": "Quận Gò Vấp"
+    },
+    {
+      "name": "Quận Phú Nhuận",
+      "value": "Quận Phú Nhuận"
+    },
+    {
+      "name": "Huyện Bình Chánh",
+      "value": "Huyện Bình Chánh"
+    },
+    {
+      "name": "Huyện Cần Giờ",
+      "value": "Huyện Cần Giờ"
+    },
+    {
+      "name": "Huyện Củ Chi",
+      "value": "Huyện Củ Chi"
+    },
+    {
+      "name": "Huyện Hóc Môn",
+      "value": "Huyện Hóc Môn"
+    },
+    {
+      "name": "Huyện Nhà Bè",
+      "value": "Huyện Nhà Bè"
+    }
+  ],
+  "hn": [
+    {
+      "name": "Quận Ba Đình",
+      "value": "Quận Ba Đình"
+    },
+    {
+      "name": "Quận Bắc Từ Liêm",
+      "value": "Quận Bắc Từ Liêm"
+    },
+    {
+      "name": "Quận Cầu Giấy",
+      "value": "Quận Cầu Giấy"
+    },
+    {
+      "name": "Quận Đống Đa",
+      "value": "Quận Đống Đa"
+    },
+    {
+      "name": "Quận Hà Đông",
+      "value": "Quận Hà Đông"
+    },
+    {
+      "name": "Quận Hai Bà Trưng",
+      "value": "Quận Hai Bà Trưng"
+    },
+    {
+      "name": "Quận Hoàn Kiếm",
+      "value": "Quận Hoàn Kiếm"
+    },
+    {
+      "name": "Quận Hoàng Mai",
+      "value": "Quận Hoàng Mai"
+    },
+    {
+      "name": "Quận Long Biên",
+      "value": "Quận Long Biên"
+    },
+    {
+      "name": "Quận Nam Từ Liêm",
+      "value": "Quận Nam Từ Liêm"
+    },
+    {
+      "name": "Quận Tây Hồ",
+      "value": "Quận Tây Hồ"
+    },
+    {
+      "name": "Quận Thanh Xuân",
+      "value": "Quận Thanh Xuân"
+    },
+    {
+      "name": "Thị xã Sơn Tây",
+      "value": "Thị xã Sơn Tây"
+    },
+    {
+      "name": "Huyện Ba Vì",
+      "value": "Huyện Ba Vì"
+    },
+    {
+      "name": "Huyện Chương Mỹ",
+      "value": "Huyện Chương Mỹ"
+    },
+    {
+      "name": "Huyện Đan Phượng",
+      "value": "Huyện Đan Phượng"
+    },
+    {
+      "name": "Huyện Đông Anh",
+      "value": "Huyện Đông Anh"
+    },
+    {
+      "name": "Huyện Gia Lâm",
+      "value": "Huyện Gia Lâm"
+    },
+    {
+      "name": "Huyện Hoài Đức",
+      "value": "Huyện Hoài Đức"
+    },
+    {
+      "name": "Huyện Mê Linh",
+      "value": "Huyện Mê Linh"
+    },
+    {
+      "name": "Huyện Mỹ Đức",
+      "value": "Huyện Mỹ Đức"
+    },
+    {
+      "name": "Huyện Phú Xuyên",
+      "value": "Huyện Phú Xuyên"
+    },
+    {
+      "name": "Huyện Phúc Thọ",
+      "value": "Huyện Phúc Thọ"
+    },
+    {
+      "name": "Huyện Quốc Oai",
+      "value": "Huyện Quốc Oai"
+    },
+    {
+      "name": "Huyện Sóc Sơn",
+      "value": "Huyện Sóc Sơn"
+    },
+    {
+      "name": "Huyện Thạch Thất",
+      "value": "Huyện Thạch Thất"
+    },
+    {
+      "name": "Huyện Thanh Oai",
+      "value": "Huyện Thanh Oai"
+    },
+    {
+      "name": "Huyện Thanh Trì",
+      "value": "Huyện Thanh Trì"
+    },
+    {
+      "name": "Huyện Thường Tín",
+      "value": "Huyện Thường Tín"
+    },
+    {
+      "name": "Huyện Ứng Hoà",
+      "value": "Huyện Ứng Hoà"
+    }
+  ]
+}

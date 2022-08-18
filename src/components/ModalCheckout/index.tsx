@@ -10,20 +10,79 @@ import {
   Table,
 } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import React from "react";
 import "./ModalCheckout.scss";
 import momo from "src/assets/images/momo.png";
 import vnpay from "src/assets/images/vnpay.png";
-
+import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
+import shippingApi, { Shipping as IShipping } from "src/api/shipping";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { User } from "src/redux/auth";
 type Props = {
+  total: number;
   visible: boolean;
   onCancel: () => void;
 };
 
 const ModalCheckout = (props: Props) => {
-  const { visible = false, onCancel = () => {} } = props;
+  const { total = 0, visible = false, onCancel = () => {} } = props;
+  const [vouchers, setVoucher] = useState<Array<IVoucher>>([]);
+  const [shipping, setShipping] = useState<Array<IShipping>>([]);
+  const [shippingFee, setShippingFee] = useState(0);
   const [form] = useForm();
-
+  const userState: User = useSelector((state: any) => state.auth.user);
+  async function getShipping() {
+    const res = await shippingApi.getShippings();
+    if (res.errorCode) {
+    } else {
+      setShipping(res.data);
+    }
+  }
+  async function getYourVouchers(
+    currentPage = 1,
+    append = false,
+    userId?: string
+  ) {
+    const query = {
+      page: currentPage,
+      limit: 50,
+      "filters[userId]": userId,
+    };
+    const res = await voucherApi.getVouchers(query);
+    if (res.errorCode) {
+    } else {
+      setVoucher(append ? [...vouchers, ...res.data] : res.data);
+    }
+  }
+  const onChangeValue = (value: any) => {
+    console.log(value);
+    if (value.shippingMethod) {
+      const tempShipping = shipping.filter(
+        (item) => item.type === value.shippingMethod
+      )[0];
+      if (form.getFieldValue("city") === "hn") {
+        setShippingFee(tempShipping.hn);
+      } else if (form.getFieldValue("city") === "hcm") {
+        setShippingFee(tempShipping.hcm);
+      }
+    }
+    if (value.city) {
+      const tempShipping = shipping.filter(
+        (item) => item.type === form.getFieldValue("shippingMethod")
+      )[0];
+      if (tempShipping) {
+        if (value.city === "hn") {
+          setShippingFee(tempShipping.hn);
+        } else if (value.city === "hcm") {
+          setShippingFee(tempShipping.hcm);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    getShipping();
+    getYourVouchers(1, false, userState.id);
+  }, []);
   return (
     <Modal visible={visible} onCancel={onCancel} footer={null}>
       <div className="checkout">
@@ -32,7 +91,7 @@ const ModalCheckout = (props: Props) => {
             <h3>Checkout</h3>
           </div>
         </div>
-        <Form form={form}>
+        <Form form={form} onValuesChange={(v) => onChangeValue(v)}>
           <div className="checkout-body">
             <Row>
               <Col md={6}>
@@ -67,6 +126,27 @@ const ModalCheckout = (props: Props) => {
                   ]}
                 >
                   <Input className="custom-input" placeholder="Address" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <h3>City:</h3>
+              </Col>
+              <Col md={18}>
+                <Form.Item
+                  name="city"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your city!",
+                    },
+                  ]}
+                >
+                  <Select className="custom-select">
+                    <Select.Option value={"hcm"}>Hồ Chí Minh</Select.Option>
+                    <Select.Option value={"hn"}>Hà Nội</Select.Option>
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
@@ -114,14 +194,21 @@ const ModalCheckout = (props: Props) => {
                 <h3>Shipping:</h3>
               </Col>
               <Col md={18}>
-                <Form.Item>
+                <Form.Item name={"shippingMethod"}>
                   <Select className="custom-select">
-                    <Select.Option value={"free"}>
+                    {shipping.map((item) => {
+                      return (
+                        <Select.Option value={item.type} key={item.id}>
+                          {item.name}
+                        </Select.Option>
+                      );
+                    })}
+                    {/* <Select.Option value={"free"}>
                       Giao hàng tiết kiệm
                     </Select.Option>
                     <Select.Option value={"normal"}>
                       Giao hàng nhanh
-                    </Select.Option>
+                    </Select.Option> */}
                   </Select>
                 </Form.Item>
               </Col>
@@ -131,12 +218,13 @@ const ModalCheckout = (props: Props) => {
                 <h3>Voucher:</h3>
               </Col>
               <Col md={18}>
-                <Form.Item>
+                <Form.Item name={"voucherId"}>
                   <Select className="custom-select">
-                    <Select.Option value={""}>None</Select.Option>
-                    <Select.Option value={"free6"}>
-                      Tiết kiệm tháng 6
-                    </Select.Option>
+                    {vouchers.map((item) => (
+                      <Select.Option value={item.id} key={item.id}>
+                        {item.name}
+                      </Select.Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </Col>
@@ -144,11 +232,11 @@ const ModalCheckout = (props: Props) => {
             <div className="sum-up">
               <div className="ship">
                 <h3>Shipping:</h3>
-                <h3>Free</h3>
+                <h3>${shippingFee}</h3>
               </div>
               <div className="total">
                 <h3>Total:</h3>
-                <h3>$0</h3>
+                <h3>${total + shippingFee}</h3>
               </div>
             </div>
             <div className="btn-container">

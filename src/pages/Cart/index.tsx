@@ -147,6 +147,7 @@ const Cart = (props: Props) => {
       </div>
 
       <ModalCheckout
+        total={subTotal}
         visible={isCheckoutModal}
         onCancel={() => setIsCheckoutModal(false)}
       />
