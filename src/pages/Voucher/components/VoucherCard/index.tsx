@@ -12,21 +12,24 @@ type Props = {
   stock?: number;
   isHad: boolean;
   id: string;
+  claim: number;
+  onClaim: Function;
 };
 
 const VoucherCard = (props: Props) => {
-  const { thumbnail, title, description, stock, isHad, id } = props;
+  const { thumbnail, title, description, stock, isHad, id, claim, onClaim } = props;
   const userState: User = useSelector((state: any) => state.auth.user);
   async function claimVoucher(id: string) {
     const res = await voucherApi.claimVoucher(id);
     if (res.errorCode) {
     } else {
+      onClaim(claim + 1)
     }
   }
   const handleAddVoucher = async () => {
     if (!userState.id) {
     } else {
-      const res = await claimVoucher(id)
+      const res = await claimVoucher(id);
     }
   };
   return (

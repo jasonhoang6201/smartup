@@ -10,6 +10,7 @@ type Props = {};
 const Voucher = (props: Props) => {
   const [vouchers, setVoucher] = useState<Array<IVoucher>>([]);
   const [youVouchers, setYourVoucher] = useState<Array<IVoucher>>([]);
+  const [claim, setClaim] = useState(0);
   const userState: User = useSelector((state: any) => state.auth.user);
   async function getVouchers(currentPage = 1, append = false) {
     const query = {
@@ -38,14 +39,15 @@ const Voucher = (props: Props) => {
       setYourVoucher(append ? [...vouchers, ...res.data] : res.data);
     }
   }
+  console.log(claim)
   useEffect(() => {
     getVouchers(1, false);
-  }, []);
+  }, [claim]);
   useEffect(() => {
     if (userState) {
       getYourVouchers(1, false, userState.id);
     }
-  }, [userState]);
+  }, [userState, claim]);
   return (
     <div className="voucher">
       <Tabs defaultActiveKey="profile" tabPosition={"left"}>
@@ -61,6 +63,8 @@ const Voucher = (props: Props) => {
                   stock={item.stock}
                   id={item.id}
                   isHad={false}
+                  claim = {claim}
+                  onClaim={setClaim}
                 />
               </Col>
             ))}
@@ -78,6 +82,8 @@ const Voucher = (props: Props) => {
                   stock={item.stock}
                   id={item.id}
                   isHad={true}
+                  claim = {claim}
+                  onClaim={setClaim}
                 />
               </Col>
             ))}
