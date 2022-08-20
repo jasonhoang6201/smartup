@@ -11,6 +11,7 @@ export interface ItemInCart {
   price: string;
   product: Product;
   quantity: number;
+  weight: number;
 }
 
 interface CartResponse {
@@ -39,6 +40,7 @@ const cartAPI = {
         );
       }
     }
+    console.log(response.data) 
     return response;
   },
   async updateCart(id?: string, quantity?: number, isIncreased?: boolean): Promise<CartResponse> {

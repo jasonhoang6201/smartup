@@ -18,7 +18,7 @@ const Cart = (props: Props) => {
   const [subTotal, setSubTotal] = React.useState(0);
   const navigate = useNavigate();
   const { generate } = useRouting();
-
+  const [isLoading, setIsLoading] = React.useState(true);
   const [isCheckoutModal, setIsCheckoutModal] = React.useState(false);
 
   const handleDeleteCart = async (id: string) => {
@@ -83,6 +83,15 @@ const Cart = (props: Props) => {
       width: "20%",
     },
     {
+      title: "Weight",
+      dataIndex: "weight",
+      key: "weight",
+      render: (_: string, record: any) => {
+        return `${(record.product.weight * record.quantity).toFixed(1)}`;
+      },
+      width: "20%",
+    },
+    {
       title: "Price",
       dataIndex: "price",
       key: "price",
@@ -107,6 +116,7 @@ const Cart = (props: Props) => {
   const getData = async () => {
     const res = await cartAPI.getCart();
     setData(res.data.product ?? []);
+    setIsLoading(false)
   };
 
   useEffect(() => {
@@ -134,6 +144,7 @@ const Cart = (props: Props) => {
         dataSource={data}
         pagination={false}
         rowKey="code"
+        loading={isLoading}
       />
 
       <div className="checkout">

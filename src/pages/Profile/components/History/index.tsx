@@ -20,6 +20,7 @@ type Props = {
 const History = () => {
   const user = useSelector((state: any) => state.auth.user);
   const [isRateModal, setIsRateModal] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [rateItem, setRateItem] = React.useState(null);
   const navigate = useNavigate();
   const { generate } = useRouting();
@@ -114,6 +115,7 @@ const History = () => {
   const getData = async () => {
     const res = await orderApi.getOrder();
     setOder(res.data ?? []);
+    setIsLoading(false)
   };
   const handleTableChange = async (value:any) => {
     setCurrentPage(value.current);
@@ -136,6 +138,7 @@ const History = () => {
           pageSize: 4,
         }}
         onChange={handleTableChange}
+        loading={isLoading}
       />
 
       <Modal
