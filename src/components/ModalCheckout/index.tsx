@@ -61,7 +61,6 @@ const ModalCheckout = (props: Props) => {
     }
   }
   const onChangeValue = (value: any) => {
-    console.log(value);
     if (value.shippingMethod) {
       const tempShipping = shipping.filter(
         (item) => item.type === value.shippingMethod
@@ -78,20 +77,36 @@ const ModalCheckout = (props: Props) => {
       )[0];
       if (value.city === "hn") {
         setDistrict(location.hn);
+        form.setFieldsValue({
+          district: ""
+        })
         if (tempShipping) {
           setShippingFee(tempShipping.hn);
         }
       } else if (value.city === "hcm") {
         setDistrict(location.hcm);
+        form.setFieldsValue({
+          district: ""
+        })
         if (tempShipping) {
           setShippingFee(tempShipping.hcm);
         }
       }
     }
   };
-  console.log(district);
+  const onFinish =() => {
+    let data = {
+      phone: userState.phone,
+      ...form.getFieldsValue(),
+      productPrice: total,
+      shipPrice: shippingFee,
+      totalPrice: total + shippingFee
+    }
+    
+    console.log(form.getFieldsValue())
+  }
   useEffect(() => {
-    setDistrict(location.hcm);
+    setDistrict([]);
     getShipping();
     getYourVouchers(1, false, userState.id);
   }, []);
@@ -212,7 +227,12 @@ const ModalCheckout = (props: Props) => {
                 <h3>Payment:</h3>
               </Col>
               <Col md={18}>
-                <Form.Item name={"payment"}>
+                <Form.Item name={"payment"}  rules={[
+                    {
+                      required: true,
+                      message: "Please choose your payment method!",
+                    },
+                  ]}>
                   <Radio.Group>
                     <Radio value={"momo"}>
                       <span className="payment-logo">
@@ -279,7 +299,7 @@ const ModalCheckout = (props: Props) => {
               </div>
             </div>
             <div className="btn-container">
-              <Button htmlType="submit" className="btn">
+              <Button htmlType="submit" className="btn" onClick={onFinish}>
                 Checkout
               </Button>
             </div>

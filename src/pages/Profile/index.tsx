@@ -22,15 +22,7 @@ const Profile = (props: Props) => {
   const dispatch = useDispatch();
 
   const [isEditProfile, setIsEditProfile] = React.useState(false);
-  const [historyData, setHistoryData] = React.useState([
-    {
-      id: "1",
-      date: "2020-01-01",
-      price: "100",
-      total: "100000",
-      status: "delivered",
-    },
-  ]);
+  
   const handleChangeProfile = async () => {
     let formData = form.getFieldsValue();
     formData.birthday = moment(formData.birthday).format("DD/MM/YYYY")
@@ -219,7 +211,7 @@ const Profile = (props: Props) => {
           }
           key={"3"}
         >
-          <History data={historyData} />
+          <History />
         </Tabs.TabPane>
         <Tabs.TabPane
           tab={
