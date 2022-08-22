@@ -60,12 +60,15 @@ const Header = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    cartAPI.getCart().then((res) => {
-      const products = res?.data?.product;
-      if (products) {
-        dispatch(setCart(products.map((item) => item.code)));
-      }
-    });
+    console.log(userState)
+    if (userState) {
+      cartAPI.getCart(userState?.token).then((res) => {
+        const products = res?.data?.product;
+        if (products) {
+          dispatch(setCart(products.map((item) => item.code)));
+        }
+      });
+    }
   }, [userState]);
 
   return (

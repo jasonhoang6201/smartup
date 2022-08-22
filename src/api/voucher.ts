@@ -30,7 +30,7 @@ interface Query {
 }
 
 const voucherAPI = {
-  async getVouchers(query ?: Query): Promise<VouchersResponse> {
+  async getVouchers(query ?: Query, token?:string): Promise<VouchersResponse> {
     let url ='/voucher'
     if(query){
         url += "?"+objectToQueryString(query)

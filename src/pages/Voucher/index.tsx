@@ -17,7 +17,7 @@ const Voucher = (props: Props) => {
       page: currentPage,
       limit: 50,
     };
-    const res = await voucherApi.getVouchers(query);
+    const res = await voucherApi.getVouchers(query, userState?.token);
     if (res.errorCode) {
     } else {
       setVoucher(append ? [...vouchers, ...res.data] : res.data);
@@ -33,7 +33,7 @@ const Voucher = (props: Props) => {
       limit: 50,
       "filters[userId]":  userId ,
     };
-    const res = await voucherApi.getVouchers(query);
+    const res = await voucherApi.getVouchers(query, userState?.token);
     if (res.errorCode) {
     } else {
       setYourVoucher(append ? [...vouchers, ...res.data] : res.data);

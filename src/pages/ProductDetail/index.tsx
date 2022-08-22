@@ -61,7 +61,7 @@ const ProductDetail = (props: Props) => {
 
   const handleAddToCard = async (id: string) => {
     if (user) {
-      const res = await cartAPI.updateCart(id, amount, true);
+      const res = await cartAPI.updateCart(user.token, id, amount, true);
       if (res.errorCode) {
         notification.error({
           message: "Error",

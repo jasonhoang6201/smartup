@@ -29,13 +29,17 @@ const userAPI = {
     const response: LoginResponse = await axiosClient.post("/login", data);
     return response;
   },
-  async verify(): Promise<VerifyResponse> {
+  async verify(token?:string): Promise<VerifyResponse> {
     const response: VerifyResponse = await axiosClient.get("/verify");
     return response;
   },
-  async update(data: User): Promise<VerifyResponse> {
+  async update(data: User, token?: string): Promise<VerifyResponse> {
     let url = "/user/" + `${data.email}`;
     const response: VerifyResponse = await axiosClient.patch(url, data);
+    return response;
+  },
+  async register(data: LoginRequest): Promise<LoginResponse> {
+    const response: LoginResponse = await axiosClient.post("/register", data);
     return response;
   },
 };

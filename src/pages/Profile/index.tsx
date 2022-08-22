@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import useRouting from "src/hooks/UseRouting";
 import { logout } from "src/redux/auth";
+import { deleteAllCart } from "src/redux/cart";
 import History from "./components/History";
 import userAPI from "src/api/user";
 import "./Profile.scss";
@@ -26,7 +27,7 @@ const Profile = (props: Props) => {
   const handleChangeProfile = async () => {
     let formData = form.getFieldsValue();
     formData.birthday = moment(formData.birthday).format("DD/MM/YYYY")
-    let res = await userAPI.update(formData);
+    let res = await userAPI.update(formData, user.token);
     if(!res.errorCode){
       setIsEditProfile(false)
       const token = localStorage.getItem("token")
@@ -40,6 +41,7 @@ const Profile = (props: Props) => {
   const handleChange = (key: string) => {
     if (key === "4") {
       dispatch(logout());
+      dispatch(deleteAllCart())
       navigate(generate("home"));
     }
   };

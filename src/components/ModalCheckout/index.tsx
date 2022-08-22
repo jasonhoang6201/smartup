@@ -57,7 +57,7 @@ const ModalCheckout = (props: Props) => {
       limit: 50,
       "filters[userId]": userId,
     };
-    const res = await voucherApi.getVouchers(query);
+    const res = await voucherApi.getVouchers(query, userState?.token);
     if (res.errorCode) {
     } else {
       setVoucher(append ? [...vouchers, ...res.data] : res?.data);
@@ -135,7 +135,6 @@ const ModalCheckout = (props: Props) => {
       totalPrice: subTotal + shippingFee,
     };
 
-    console.log(data);
   };
   useEffect(() => {
     setDistrict([]);
@@ -283,11 +282,11 @@ const ModalCheckout = (props: Props) => {
                         <img src={momo} alt="momo" />
                       </span>
                     </Radio>
-                    <Radio value={"vnpay"}>
+                    {/* <Radio value={"vnpay"}>
                       <span className="payment-logo">
                         <img src={vnpay} alt="vnpay" />
                       </span>
-                    </Radio>
+                    </Radio> */}
                   </Radio.Group>
                 </Form.Item>
               </Col>
@@ -346,7 +345,7 @@ const ModalCheckout = (props: Props) => {
               </div>
             </div>
             <div className="btn-container">
-              <Button className="btn">Checkout</Button>
+              <Button htmlType="submit" className="btn">Checkout</Button>
             </div>
           </div>
         </Form>

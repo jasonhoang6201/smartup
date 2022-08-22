@@ -29,9 +29,21 @@ interface Query {
 }
 
 const orderAPI = {
-  async getOrder(): Promise<OrderResponse> {
+  async getOrder(token: string): Promise<OrderResponse> {
     let url = "/order";
+    axiosClient.defaults.headers.common["token"] = token;
     let response: OrderResponse = await axiosClient.get(url);
+    if (!response.errorCode) {
+      response.data.map((item) => {
+        item.createdAt = moment(moment(item.createdAt)).format("DD/MM/YYYY");
+      });
+    }
+    return response;
+  },
+  async create(token:string): Promise<OrderResponse> {
+    let url = "/checkout";
+    axiosClient.defaults.headers.common["token"] = token;
+    let response: OrderResponse = await axiosClient.post(url);
     if (!response.errorCode) {
       response.data.map((item) => {
         item.createdAt = moment(moment(item.createdAt)).format("DD/MM/YYYY");

@@ -27,9 +27,12 @@ export const authSlice = createSlice({
         );
       }
     },
+    deleteAllCart: (state) => {
+      state.productLength = [];
+    },
   },
 });
 
-export const { addCart, removeCart, setCart } = authSlice.actions;
+export const { addCart, removeCart, setCart, deleteAllCart } = authSlice.actions;
 
 export default authSlice.reducer;

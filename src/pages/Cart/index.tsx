@@ -21,9 +21,9 @@ const Cart = (props: Props) => {
   const { generate } = useRouting();
   const [isLoading, setIsLoading] = React.useState(true);
   const [isCheckoutModal, setIsCheckoutModal] = React.useState(false);
-
+  console.log(cartState);
   const handleDeleteCart = async (id: string) => {
-    const res = await cartAPI.updateCart(id, 0);
+    const res = await cartAPI.updateCart(user.token, id, 0);
     if (res.errorCode) {
       notification.error({
         message: "Error",
@@ -36,7 +36,7 @@ const Cart = (props: Props) => {
   };
 
   const onChangeValue = async (value: number, index: number, id: string) => {
-    const res = await cartAPI.updateCart(id, value);
+    const res = await cartAPI.updateCart(user.token, id, value);
     if (!res.errorCode) {
       setData(
         data.map((item, i) => {
@@ -115,17 +115,20 @@ const Cart = (props: Props) => {
   const [data, setData] = React.useState<Array<ItemInCart>>([]);
 
   const getData = async () => {
-    const res = await cartAPI.getCart();
+    const res = await cartAPI.getCart(user?.token);
     setData(res.data.product ?? []);
     setIsLoading(false);
   };
-
+  console.log(user);
   useEffect(() => {
-    if (!user) {
-      navigate(generate("home"));
-    } else {
-      getData();
-    }
+    const loadData = async () => {
+      if (!user) {
+        navigate(generate("home"));
+      } else {
+        await getData();
+      }
+    };
+    loadData();
   }, [user, navigate, cartState]);
 
   useLayoutEffect(() => {
@@ -136,13 +139,9 @@ const Cart = (props: Props) => {
       )
     );
     setWeight(
-      data.reduce(
-        (acc, item) => acc + item.product?.weight * item.quantity,
-        0
-      )
+      data.reduce((acc, item) => acc + item.product?.weight * item.quantity, 0)
     );
   }, [data]);
-  console.log(data)
   return (
     <div className="cart">
       <h1>Your shopping cart</h1>
@@ -168,7 +167,7 @@ const Cart = (props: Props) => {
           total={subTotal}
           visible={isCheckoutModal}
           onCancel={() => setIsCheckoutModal(false)}
-          weight = {weight}
+          weight={weight}
         />
       )}
     </div>

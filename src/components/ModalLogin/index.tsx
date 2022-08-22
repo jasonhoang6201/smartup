@@ -35,12 +35,21 @@ const ModalLogin = (props: Props) => {
     }
   };
 
-  const handleRegister = () => {
+  const handleRegister = async() => {
     console.log(form.getFieldsValue);
+    const res = await userAPI.register(form.getFieldsValue());
+    if (res.errorCode) {
+      return toast.error(`${res?.data}`, { position: "top-right" });
+    } else {
+      localStorage.setItem("token", res?.data?.token);
+      dispatch(login(res?.data));
+      props.onCancel();
+    }
   };
 
   const handleForgetPassword = () => {
     console.log(form.getFieldsValue);
+    
   };
 
   return (
@@ -144,7 +153,7 @@ const ModalLogin = (props: Props) => {
               <Input.Password placeholder="Password" className="custom-input" />
             </Form.Item>
             <Form.Item
-              name="rePassword"
+              name="confirmPassword"
               rules={[
                 {
                   required: true,

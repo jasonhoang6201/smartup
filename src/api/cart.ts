@@ -1,6 +1,5 @@
 import { axiosClient } from ".";
 import { Product } from "./products";
-
 export interface Cart {
   id: string;
   userId: string;
@@ -25,8 +24,9 @@ interface Query {
 }
 
 const cartAPI = {
-  async getCart(): Promise<CartResponse> {
+  async getCart(token:string): Promise<CartResponse> {
     let url = "/cart";
+    axiosClient.defaults.headers.common["token"] = token;
     let response: CartResponse = await axiosClient.get(url);
     if (response.data) {
       for (let i = 0; i < response?.data?.product?.length; i++) {
@@ -42,7 +42,7 @@ const cartAPI = {
     console.log(response.data) 
     return response;
   },
-  async updateCart(id?: string, quantity?: number, isIncreased?: boolean): Promise<CartResponse> {
+  async updateCart(token:string, id?: string, quantity?: number, isIncreased?: boolean): Promise<CartResponse> {
     let url = "/cart";
     let data = {
       product: {
@@ -55,6 +55,7 @@ const cartAPI = {
     if(quantity === 0){
       data.isDeleted = true
     }
+    axiosClient.defaults.headers.common["token"] = token;
     let response: CartResponse = await axiosClient.patch(url, data);
     return response;
   }
