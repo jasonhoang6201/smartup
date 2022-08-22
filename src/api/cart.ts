@@ -11,7 +11,6 @@ export interface ItemInCart {
   price: string;
   product: Product;
   quantity: number;
-  weight: number;
 }
 
 interface CartResponse {

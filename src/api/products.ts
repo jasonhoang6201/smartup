@@ -16,6 +16,7 @@ export interface Product {
   sold: number;
   rate?: number;
   relatedProducts: relatedProducts;
+  weight: number
 }
 
 interface relatedProducts {

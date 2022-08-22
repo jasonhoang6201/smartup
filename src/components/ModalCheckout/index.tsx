@@ -13,6 +13,7 @@ import { useForm } from "antd/lib/form/Form";
 import "./ModalCheckout.scss";
 import momo from "src/assets/images/momo.png";
 import vnpay from "src/assets/images/vnpay.png";
+import cash from "src/assets/images/cash.jpg";
 import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
 import shippingApi, { Shipping as IShipping } from "src/api/shipping";
 import React, { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ import location from "src/location/location.json";
 type Props = {
   total: number;
   visible: boolean;
+  weight: number;
   onCancel: () => void;
 };
 interface Location {
@@ -30,12 +32,13 @@ interface Location {
   value: number;
 }
 const ModalCheckout = (props: Props) => {
-  const { total = 0, visible = false, onCancel = () => {} } = props;
+  const { total = 0, visible = false, onCancel = () => {}, weight = 0 } = props;
   const [district, setDistrict] = useState<Array<any>>([]);
   const [vouchers, setVoucher] = useState<Array<IVoucher>>([]);
   const [shipping, setShipping] = useState<Array<IShipping>>([]);
   const [shippingFee, setShippingFee] = useState(0);
   const [form] = useForm();
+  const [subTotal, setSubTotal] = useState(total);
   const userState: User = useSelector((state: any) => state.auth.user);
   async function getShipping() {
     const res = await shippingApi.getShippings();
@@ -57,7 +60,7 @@ const ModalCheckout = (props: Props) => {
     const res = await voucherApi.getVouchers(query);
     if (res.errorCode) {
     } else {
-      setVoucher(append ? [...vouchers, ...res.data] : res.data);
+      setVoucher(append ? [...vouchers, ...res.data] : res?.data);
     }
   }
   const onChangeValue = (value: any) => {
@@ -66,9 +69,17 @@ const ModalCheckout = (props: Props) => {
         (item) => item.type === value.shippingMethod
       )[0];
       if (form.getFieldValue("city") === "hn") {
-        setShippingFee(tempShipping.hn);
+        if (weight > 1) {
+          setShippingFee(tempShipping.hn + 0.2);
+        }else{
+          setShippingFee(tempShipping.hn);
+        }
       } else if (form.getFieldValue("city") === "hcm") {
-        setShippingFee(tempShipping.hcm);
+        if (weight > 1) {
+          setShippingFee(tempShipping.hcm + 0.2);
+        }else{
+          setShippingFee(tempShipping.hcm);
+        }
       }
     }
     if (value.city) {
@@ -78,33 +89,54 @@ const ModalCheckout = (props: Props) => {
       if (value.city === "hn") {
         setDistrict(location.hn);
         form.setFieldsValue({
-          district: ""
-        })
+          district: "",
+        });
         if (tempShipping) {
-          setShippingFee(tempShipping.hn);
+          if (weight > 1) {
+            setShippingFee(tempShipping.hn + 0.2);
+          }else{
+            setShippingFee(tempShipping.hn);
+          }
         }
       } else if (value.city === "hcm") {
         setDistrict(location.hcm);
         form.setFieldsValue({
-          district: ""
-        })
+          district: "",
+        });
         if (tempShipping) {
-          setShippingFee(tempShipping.hcm);
+          if (weight > 1) {
+            setShippingFee(tempShipping.hcm + 0.2);
+          }else{
+            setShippingFee(tempShipping.hcm);
+          }
         }
       }
     }
+    if (value.voucherId) {
+      const voucherId = vouchers.filter((item) => item.id === value.voucherId);
+      if (voucherId.length === 0) {
+        setSubTotal(total);
+      } else {
+        const voucherItem = voucherId[0];
+        const temp =
+          total - parseFloat(voucherItem.price) >= 0
+            ? total - parseFloat(voucherItem.price)
+            : 0;
+        setSubTotal(temp);
+      }
+    }
   };
-  const onFinish =() => {
+  const onFinish = () => {
     let data = {
       phone: userState.phone,
       ...form.getFieldsValue(),
-      productPrice: total,
+      productPrice: subTotal,
       shipPrice: shippingFee,
-      totalPrice: total + shippingFee
-    }
-    
-    console.log(form.getFieldsValue())
-  }
+      totalPrice: subTotal + shippingFee,
+    };
+
+    console.log(data);
+  };
   useEffect(() => {
     setDistrict([]);
     getShipping();
@@ -118,7 +150,11 @@ const ModalCheckout = (props: Props) => {
             <h3>Checkout</h3>
           </div>
         </div>
-        <Form form={form} onValuesChange={(v) => onChangeValue(v)}>
+        <Form
+          form={form}
+          onValuesChange={(v) => onChangeValue(v)}
+          onFinish={onFinish}
+        >
           <div className="checkout-body">
             <Row>
               <Col md={6}>
@@ -227,13 +263,21 @@ const ModalCheckout = (props: Props) => {
                 <h3>Payment:</h3>
               </Col>
               <Col md={18}>
-                <Form.Item name={"payment"}  rules={[
+                <Form.Item
+                  name={"payment"}
+                  rules={[
                     {
                       required: true,
                       message: "Please choose your payment method!",
                     },
-                  ]}>
+                  ]}
+                >
                   <Radio.Group>
+                    <Radio value={"cash"}>
+                      <span className="payment-logo">
+                        <img src={cash} alt="cash" />
+                      </span>
+                    </Radio>
                     <Radio value={"momo"}>
                       <span className="payment-logo">
                         <img src={momo} alt="momo" />
@@ -277,8 +321,11 @@ const ModalCheckout = (props: Props) => {
                 <h3>Voucher:</h3>
               </Col>
               <Col md={18}>
-                <Form.Item name={"voucherId"}>
+                <Form.Item name={"voucherId"} initialValue={"none"}>
                   <Select className="custom-select">
+                    <Select.Option value={"none"} key={"none"}>
+                      None
+                    </Select.Option>
                     {vouchers.map((item) => (
                       <Select.Option value={item.id} key={item.id}>
                         {item.name}
@@ -295,13 +342,11 @@ const ModalCheckout = (props: Props) => {
               </div>
               <div className="total">
                 <h3>Total:</h3>
-                <h3>${total + shippingFee}</h3>
+                <h3>${subTotal + shippingFee}</h3>
               </div>
             </div>
             <div className="btn-container">
-              <Button htmlType="submit" className="btn" onClick={onFinish}>
-                Checkout
-              </Button>
+              <Button className="btn">Checkout</Button>
             </div>
           </div>
         </Form>

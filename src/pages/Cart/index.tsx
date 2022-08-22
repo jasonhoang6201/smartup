@@ -16,6 +16,7 @@ const Cart = (props: Props) => {
   const cartState = useSelector((state: any) => state.cart.productLength);
   const dispatch = useDispatch();
   const [subTotal, setSubTotal] = React.useState(0);
+  const [weight, setWeight] = React.useState(0);
   const navigate = useNavigate();
   const { generate } = useRouting();
   const [isLoading, setIsLoading] = React.useState(true);
@@ -116,7 +117,7 @@ const Cart = (props: Props) => {
   const getData = async () => {
     const res = await cartAPI.getCart();
     setData(res.data.product ?? []);
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -134,8 +135,14 @@ const Cart = (props: Props) => {
         0
       )
     );
+    setWeight(
+      data.reduce(
+        (acc, item) => acc + item.product?.weight * item.quantity,
+        0
+      )
+    );
   }, [data]);
-
+  console.log(data)
   return (
     <div className="cart">
       <h1>Your shopping cart</h1>
@@ -156,12 +163,14 @@ const Cart = (props: Props) => {
           Checkout
         </button>
       </div>
-
-      <ModalCheckout
-        total={subTotal}
-        visible={isCheckoutModal}
-        onCancel={() => setIsCheckoutModal(false)}
-      />
+      {isCheckoutModal && (
+        <ModalCheckout
+          total={subTotal}
+          visible={isCheckoutModal}
+          onCancel={() => setIsCheckoutModal(false)}
+          weight = {weight}
+        />
+      )}
     </div>
   );
 };
