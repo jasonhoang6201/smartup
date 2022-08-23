@@ -72,9 +72,9 @@ const History = () => {
             return <Tag color="blue">Pending</Tag>;
           case "Shipping":
             return <Tag color="pink">Shipping</Tag>;
-          case "Delivered":
+          case "Done":
             return <Tag color="green">Delivered</Tag>;
-          case "Cancelled":
+          case "Cancel":
             return <Tag color="red">Cancelled</Tag>;
           default:
             return <Tag color="blue">Pending</Tag>;
