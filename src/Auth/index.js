@@ -16,7 +16,7 @@ export const CheckAuth = ({ children }) => {
     const verifyAccount = async () => {
       if (!user && !check) {
         if (token) {
-          const res = await userAPI.verify();
+          const res = await userAPI.verify(token);
           setCheck(true);
           dispatch(login(res.data));
         } else {

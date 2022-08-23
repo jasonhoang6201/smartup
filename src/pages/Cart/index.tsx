@@ -21,7 +21,6 @@ const Cart = (props: Props) => {
   const { generate } = useRouting();
   const [isLoading, setIsLoading] = React.useState(true);
   const [isCheckoutModal, setIsCheckoutModal] = React.useState(false);
-  console.log(cartState);
   const handleDeleteCart = async (id: string) => {
     const res = await cartAPI.updateCart(user.token, id, 0);
     if (res.errorCode) {
@@ -116,10 +115,9 @@ const Cart = (props: Props) => {
 
   const getData = async () => {
     const res = await cartAPI.getCart(user?.token);
-    setData(res.data.product ?? []);
+    setData(res.data?.product ?? []);
     setIsLoading(false);
   };
-  console.log(user);
   useEffect(() => {
     const loadData = async () => {
       if (!user) {

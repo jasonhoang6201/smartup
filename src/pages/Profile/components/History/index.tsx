@@ -113,7 +113,8 @@ const History = () => {
     },
   ];
   const getData = async () => {
-    const res = await orderApi.getOrder(user.token);
+    const res = await orderApi.getHistory(user.token);
+    console.log(res.data)
     setOder(res.data ?? []);
     setIsLoading(false)
   };

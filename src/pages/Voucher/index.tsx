@@ -39,7 +39,6 @@ const Voucher = (props: Props) => {
       setYourVoucher(append ? [...vouchers, ...res.data] : res.data);
     }
   }
-  console.log(claim)
   useEffect(() => {
     getVouchers(1, false);
   }, [claim]);

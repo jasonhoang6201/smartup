@@ -16,10 +16,12 @@ import vnpay from "src/assets/images/vnpay.png";
 import cash from "src/assets/images/cash.jpg";
 import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
 import shippingApi, { Shipping as IShipping } from "src/api/shipping";
+import orderApi, { Order as IOrder } from "src/api/order";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { User } from "src/redux/auth";
 import location from "src/location/location.json";
+import toast from "react-hot-toast";
 
 type Props = {
   total: number;
@@ -126,7 +128,7 @@ const ModalCheckout = (props: Props) => {
       }
     }
   };
-  const onFinish = () => {
+  const onFinish = async() => {
     let data = {
       phone: userState.phone,
       ...form.getFieldsValue(),
@@ -134,7 +136,11 @@ const ModalCheckout = (props: Props) => {
       shipPrice: shippingFee,
       totalPrice: subTotal + shippingFee,
     };
-
+    const res = await orderApi.create(userState?.token, data)
+    if(res.errorCode){
+      return toast.error(`${res.data}`,{position:"top-right"})
+    }
+    window.open(res.paymentData?.redirectUrl, "_self")
   };
   useEffect(() => {
     setDistrict([]);

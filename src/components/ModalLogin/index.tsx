@@ -36,7 +36,6 @@ const ModalLogin = (props: Props) => {
   };
 
   const handleRegister = async() => {
-    console.log(form.getFieldsValue);
     const res = await userAPI.register(form.getFieldsValue());
     if (res.errorCode) {
       return toast.error(`${res?.data}`, { position: "top-right" });

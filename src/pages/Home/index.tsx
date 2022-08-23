@@ -46,7 +46,7 @@ const Home = (props: Props) => {
         <div className="product-list">
           <h1>Best seller</h1>
           <Row gutter={[30, 30]}>
-            {products.map((item, index) => {
+            {products?.map((item, index) => {
               return (
                 <Col md={6} xs={12} key ={index}>
                   <ProductCard

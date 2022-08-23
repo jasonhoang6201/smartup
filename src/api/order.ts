@@ -20,6 +20,12 @@ export interface Order {
 interface OrderResponse {
   errorCode: boolean | null;
   data: Array<Order>;
+  paymentData: Payment | null
+}
+
+interface Payment {
+  orderId: string;
+  redirectUrl: string;
 }
 
 interface Query {
@@ -29,8 +35,8 @@ interface Query {
 }
 
 const orderAPI = {
-  async getOrder(token: string): Promise<OrderResponse> {
-    let url = "/order";
+  async getHistory(token: string): Promise<OrderResponse> {
+    let url = "/history";
     axiosClient.defaults.headers.common["token"] = token;
     let response: OrderResponse = await axiosClient.get(url);
     if (!response.errorCode) {
@@ -40,15 +46,10 @@ const orderAPI = {
     }
     return response;
   },
-  async create(token:string): Promise<OrderResponse> {
+  async create(token:string, data: any): Promise<OrderResponse> {
     let url = "/checkout";
     axiosClient.defaults.headers.common["token"] = token;
-    let response: OrderResponse = await axiosClient.post(url);
-    if (!response.errorCode) {
-      response.data.map((item) => {
-        item.createdAt = moment(moment(item.createdAt)).format("DD/MM/YYYY");
-      });
-    }
+    let response: OrderResponse = await axiosClient.post(url, data);
     return response;
   },
 };

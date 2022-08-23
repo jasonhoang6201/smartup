@@ -60,7 +60,6 @@ const Header = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log(userState)
     if (userState) {
       cartAPI.getCart(userState?.token).then((res) => {
         const products = res?.data?.product;

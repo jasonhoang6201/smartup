@@ -20,8 +20,6 @@ const ProductionItem = (props: Props) => {
         sale,
         rate } = props
 
-    console.log(id, sale, rate)
-
     return (
         <Link to={`/product/${id}`}>
             <div className="production-card">

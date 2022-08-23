@@ -119,7 +119,6 @@ const Category = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log(params?.category);
     if (params?.category) {
       form.setFieldsValue({
         category: [params.category],
@@ -274,7 +273,7 @@ const Category = (props: Props) => {
           <Col md={20} xs={24}>
             <div className="product-list">
               <Row gutter={[30, 30]}>
-                {products.map((item, index) => {
+                {products?.map((item, index) => {
                   return (
                     <Col md={6} xs={12} key={index}>
                       <ProductCard

@@ -39,7 +39,6 @@ const cartAPI = {
         );
       }
     }
-    console.log(response.data) 
     return response;
   },
   async updateCart(token:string, id?: string, quantity?: number, isIncreased?: boolean): Promise<CartResponse> {
