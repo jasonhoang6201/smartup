@@ -5,8 +5,8 @@ import { deleteCookie } from "src/helpers/cookie";
 const token = localStorage.getItem("token");
 
 export const apiConfig = {
-  // baseURL: "https://ec01-03-server.herokuapp.com/",
-  baseURL: "http://localhost:3001/",
+  baseURL: "https://ec01-03-server.herokuapp.com/",
+  // baseURL: "http://localhost:3001/",
 };
 
 const axiosClient = axios.create({
