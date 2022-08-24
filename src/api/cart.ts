@@ -34,7 +34,7 @@ const cartAPI = {
           (item) =>
             (item.price = (
               parseFloat(item.product.price) *
-              (1 - parseFloat(item.product.sale))
+              (100 - parseFloat(item.product.sale)) / 100
             ).toFixed(2))
         );
       }

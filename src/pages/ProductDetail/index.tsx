@@ -46,7 +46,7 @@ const ProductDetail = (props: Props) => {
     setProduct({
       ...res.data,
       newPrice:
-        product?.sale && product?.sale !== "0"
+        product?.sale !== "" && product?.sale !== "0"
           ? (
               parseFloat(res.data.price) -
               (parseFloat(res.data.price) * parseFloat(res.data.sale)) / 100
@@ -77,7 +77,7 @@ const ProductDetail = (props: Props) => {
       setIsModalLogin(true);
     }
   };
-
+  console.log(product)
   useEffect(() => {
     window.scrollTo({
       top: 0,
