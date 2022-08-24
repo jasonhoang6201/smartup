@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import voucherApi from "src/api/voucher";
 import { User } from "src/redux/auth";
@@ -21,8 +22,10 @@ const VoucherCard = (props: Props) => {
   async function claimVoucher(id: string) {
     const res = await voucherApi.claimVoucher(id);
     if (res.errorCode) {
+      return toast.error("Cannot claim Voucher", {position:"top-right"})
     } else {
       onClaim(claim + 1);
+      return toast.success("Voucher has been claimed", {position:"top-right"});
     }
   }
   const handleAddVoucher = async () => {
