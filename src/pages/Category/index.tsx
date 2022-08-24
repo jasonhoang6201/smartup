@@ -1,4 +1,4 @@
-import { Checkbox, Col, Form, Radio, Row } from "antd";
+import { Checkbox, Col, Form, Radio, Row, Spin } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import React, { useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -15,6 +15,7 @@ const Category = (props: Props) => {
   const [form] = useForm();
   const [page, setPage] = React.useState(1);
   const [totalPage, setTotalPage] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [products, setProducts] = React.useState<Array<Product>>([]);
   const [brands, setBrands] = React.useState<Array<Supplier>>([]);
@@ -36,12 +37,14 @@ const Category = (props: Props) => {
       "filters[brand]": brand ?? "",
       "filters[price]": price ?? 4,
     };
+    setIsLoading(true);
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
     } else {
       setProducts(append ? [...products, ...res.data] : res.data);
       setTotalPage(res.metadata.recordTotal);
     }
+    setIsLoading(false);
   }
 
   async function getBrands() {
@@ -271,35 +274,37 @@ const Category = (props: Props) => {
             </Form>
           </Col>
           <Col md={20} xs={24}>
-            <div className="product-list">
-              <Row gutter={[30, 30]}>
-                {products?.map((item, index) => {
-                  return (
-                    <Col md={6} xs={12} key={index}>
-                      <ProductCard
-                        id={item.id}
-                        name={item.name}
-                        sale={item.sale}
-                        price={item.price}
-                        rate={item.rate}
-                        thumbnail={
-                          item.image[0] ??
-                          "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
-                        }
-                        key={index}
-                      />
-                    </Col>
-                  );
-                })}
-              </Row>
-              {totalPage > page * 8 && (
-                <div className="btn-view-more">
-                  <button className="btn" onClick={() => handleLoadMore()}>
-                    Load more
-                  </button>
-                </div>
-              )}
-            </div>
+            <Spin spinning={isLoading}>
+              <div className="product-list">
+                <Row gutter={[30, 30]}>
+                  {products?.map((item, index) => {
+                    return (
+                      <Col md={6} xs={12} key={index}>
+                        <ProductCard
+                          id={item.id}
+                          name={item.name}
+                          sale={item.sale}
+                          price={item.price}
+                          rate={item.rate}
+                          thumbnail={
+                            item.image[0] ??
+                            "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
+                          }
+                          key={index}
+                        />
+                      </Col>
+                    );
+                  })}
+                </Row>
+                {totalPage > page * 8 && (
+                  <div className="btn-view-more">
+                    <button className="btn" onClick={() => handleLoadMore()}>
+                      Load more
+                    </button>
+                  </div>
+                )}
+              </div>
+            </Spin>
           </Col>
         </Row>
       </div>

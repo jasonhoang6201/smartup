@@ -1,4 +1,4 @@
-import { Col, Row, Tabs } from "antd";
+import { Col, Row, Spin, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
@@ -12,6 +12,7 @@ const Voucher = (props: Props) => {
   const [youVouchers, setYourVoucher] = useState<Array<IVoucher>>([]);
   const [claim, setClaim] = useState(0);
   const userState: User = useSelector((state: any) => state.auth.user);
+  const [isLoading, setIsLoading] = useState(false);
   async function getVouchers(currentPage = 1, append = false) {
     const query = {
       page: currentPage,
@@ -33,11 +34,13 @@ const Voucher = (props: Props) => {
       limit: 50,
       "filters[userId]": userId,
     };
+    setIsLoading(true);
     const res = await voucherApi.getVouchers(query, userState?.token);
     if (res.errorCode) {
     } else {
       setYourVoucher(append ? [...vouchers, ...res.data] : res.data);
     }
+    setIsLoading(false);
   }
   useEffect(() => {
     getVouchers(1, false);
@@ -51,42 +54,46 @@ const Voucher = (props: Props) => {
     <div className="voucher">
       <Tabs defaultActiveKey="profile" tabPosition={"left"}>
         <Tabs.TabPane tab={<span>Available Vouchers</span>} key="1">
-          <Row gutter={[30, 30]}>
-            {vouchers.map((item, idx) => (
-              <Col md={12} xs={24} key={idx}>
-                <VoucherCard
-                  key={idx}
-                  thumbnail="https://via.placeholder.com/150"
-                  title={item.name}
-                  description={item.description}
-                  stock={item.stock}
-                  id={item.id}
-                  isHad={false}
-                  claim={claim}
-                  onClaim={setClaim}
-                />
-              </Col>
-            ))}
-          </Row>
+          <Spin spinning={isLoading}>
+            <Row gutter={[30, 30]}>
+              {vouchers.map((item, idx) => (
+                <Col md={12} xs={24} key={idx}>
+                  <VoucherCard
+                    key={idx}
+                    thumbnail="https://via.placeholder.com/150"
+                    title={item.name}
+                    description={item.description}
+                    stock={item.stock}
+                    id={item.id}
+                    isHad={false}
+                    claim={claim}
+                    onClaim={setClaim}
+                  />
+                </Col>
+              ))}
+            </Row>
+          </Spin>
         </Tabs.TabPane>
         <Tabs.TabPane tab={<span>Your Vouchers</span>} key="2">
-          <Row gutter={[30, 30]}>
-            {youVouchers.map((item, idx) => (
-              <Col md={12} xs={24} key={idx}>
-                <VoucherCard
-                  key={item.id}
-                  thumbnail="https://via.placeholder.com/150"
-                  title={item.name}
-                  description={item.description}
-                  stock={item.stock}
-                  id={item.id}
-                  isHad={true}
-                  claim={claim}
-                  onClaim={setClaim}
-                />
-              </Col>
-            ))}
-          </Row>
+          <Spin spinning={isLoading}>
+            <Row gutter={[30, 30]}>
+              {youVouchers.map((item, idx) => (
+                <Col md={12} xs={24} key={idx}>
+                  <VoucherCard
+                    key={item.id}
+                    thumbnail="https://via.placeholder.com/150"
+                    title={item.name}
+                    description={item.description}
+                    stock={item.stock}
+                    id={item.id}
+                    isHad={true}
+                    claim={claim}
+                    onClaim={setClaim}
+                  />
+                </Col>
+              ))}
+            </Row>
+          </Spin>
         </Tabs.TabPane>
       </Tabs>
     </div>
