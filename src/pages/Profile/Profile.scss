@@ -1,54 +1,61 @@
 .profile {
-    padding: 3rem 5rem;
+  padding: 3rem 5rem;
 
-    .ant-tabs-tab {
-        transition: all 0.2s ease-in-out;
+  .ant-tabs-tab {
+    transition: all 0.2s ease-in-out;
 
-        &.ant-tabs-tab-active {
-            background-color: #000;
+    &.ant-tabs-tab-active {
+      background-color: #000;
 
-            .ant-tabs-tab-btn {
-                span {
-                    color: #FFF;
-                }
-            }
+      .ant-tabs-tab-btn {
+        span {
+          color: #fff;
         }
-
-        .ant-tabs-tab-btn {
-            span {
-                display: flex;
-                align-items: center;
-                color: #000;
-
-                svg {
-                    margin-right: 0.5rem;
-                }
-            }
-
-            &:hover {
-                color: #000;
-            }
-        }
+      }
     }
 
-    .ant-tabs-ink-bar {
-        display: none;
-    }
+    .ant-tabs-tab-btn {
+      span {
+        display: flex;
+        align-items: center;
+        color: #000;
 
-    .ant-form-item {
-        padding: 0 3rem;
-
-        .ant-form-item-label {
-            text-align: left;
+        svg {
+          margin-right: 0.5rem;
         }
-    }
+      }
 
-    .btn-group {
-        padding: 0 3rem;
-        text-align: right;
-
-        .btn:last-child {
-            margin-left: 1rem;
-        }
+      &:hover {
+        color: #000;
+      }
     }
+  }
+
+  .ant-tabs-ink-bar {
+    display: none;
+  }
+
+  .ant-form-item {
+    padding: 0 3rem;
+
+    .ant-form-item-label {
+      text-align: left;
+    }
+  }
+
+  .btn-group {
+    padding: 0 3rem;
+    text-align: right;
+
+    .btn:last-child {
+      margin-left: 1rem;
+    }
+  }
+}
+.ant-steps-dot .ant-steps-item-tail,
+.ant-steps-dot.ant-steps-small .ant-steps-item-tail {
+  display: flex;
+}
+.ant-steps-label-vertical .ant-steps-item-content {
+  margin-top: 0;
 }
