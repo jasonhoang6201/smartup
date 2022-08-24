@@ -52,6 +52,12 @@ const orderAPI = {
     let response: OrderResponse = await axiosClient.post(url, data);
     return response;
   },
+  async update(token: string, orderId: string, data: any): Promise<OrderResponse> {
+    let url = `/order/${orderId}`;
+    axiosClient.defaults.headers.common["token"] = token;
+    let response: OrderResponse = await axiosClient.put(url, data);
+    return response;
+  }
 };
 
 export default orderAPI;

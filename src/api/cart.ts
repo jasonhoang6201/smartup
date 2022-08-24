@@ -28,7 +28,7 @@ const cartAPI = {
     let url = "/cart";
     axiosClient.defaults.headers.common["token"] = token;
     let response: CartResponse = await axiosClient.get(url);
-    if (response.data) {
+    if (!response.errorCode) {
       for (let i = 0; i < response?.data?.product?.length; i++) {
         response.data.product.map(
           (item) =>

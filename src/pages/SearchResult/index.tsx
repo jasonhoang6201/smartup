@@ -11,7 +11,6 @@ type Props = {};
 const SearchResult = (props: Props) => {
   const location = useLocation();
   const keyword = location.search.split("=")[1].replaceAll("%20", " ");
-  const [result, setResult] = React.useState<Array<Product>>([]);
   const [form] = useForm();
   const [brands, setBrands] = React.useState<Array<any>>([]);
   const [page, setPage] = React.useState(1);
@@ -65,6 +64,7 @@ const SearchResult = (props: Props) => {
     const query = {
       page: currentPage,
       limit: 8,
+      "filters[name]": keyword ?? "",
       "filters[category]": "",
       "filters[brand]": brand ?? "",
       "filters[price]": price ?? 4,
@@ -72,11 +72,12 @@ const SearchResult = (props: Props) => {
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {
     } else {
+      console.log(res.data);
       setProducts(append ? [...products, ...res.data] : res.data);
       setTotalPage(res.metadata.recordTotal);
     }
   }
-
+  console.log(products);
   const handleFilter = async () => {
     let category = "";
     let brand = "";
@@ -117,7 +118,7 @@ const SearchResult = (props: Props) => {
 
   return (
     <div className="search-result">
-      {result.length > 0 ? (
+      {products.length > 0 ? (
         <Row gutter={[30, 30]}>
           <Col md={4} xs={0}>
             <Form form={form} onFinish={handleFilter}>
@@ -221,7 +222,7 @@ const SearchResult = (props: Props) => {
             </Form>
           </Col>
           <Col md={20}>
-            {result.map((item, index) => (
+            {products.map((item, index) => (
               <Col key={index} md={6} xs={12}>
                 <ProductCard
                   id={item.id}
