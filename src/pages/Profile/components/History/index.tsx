@@ -211,6 +211,7 @@ const History = () => {
         okText={<span className="text-blue-500 hover:text-white">Update</span>}
         width={"80%"}
         destroyOnClose
+        footer={null}
       >
         <DetailOrder data={editItem?.product || []} order={editItem} />
       </Modal>

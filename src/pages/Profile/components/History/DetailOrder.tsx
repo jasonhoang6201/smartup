@@ -1,7 +1,9 @@
-import { Modal, Steps, Table } from "antd";
+import { Button, Modal, Steps, Table } from "antd";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import orderAPI from "src/api/order";
+import RateOrder from "../RateOrder";
+import "./DetailOrder.scss";
 
 const { Step } = Steps;
 const steps = [
@@ -26,6 +28,7 @@ type Props = {
 
 const DetailOrder = (props: Props) => {
   const { data, order } = props;
+  const [isRateModal, setIsRateModal] = useState<boolean>(false);
   const [current, setCurrent] = useState(1);
   const user = useSelector((state: any) => state.auth.user);
   useEffect(() => {
@@ -94,7 +97,7 @@ const DetailOrder = (props: Props) => {
   ];
 
   return (
-    <div>
+    <div className="detail-order">
       <Steps
         current={current}
         style={{ marginBottom: "2rem" }}
@@ -106,6 +109,22 @@ const DetailOrder = (props: Props) => {
         ))}
       </Steps>
       <Table columns={columns} dataSource={data} rowKey="code" />
+      {current === 3 && (
+        <div className="rate-button">
+          <Button className="btn" onClick={() => setIsRateModal(true)}>
+            Rate this cart
+          </Button>
+        </div>
+      )}
+      <Modal
+        visible={isRateModal}
+        title="Rate"
+        okText="Rate"
+        cancelText="Cancel"
+        onCancel={() => setIsRateModal(false)}
+      >
+        <RateOrder product={order.product} />
+      </Modal>
     </div>
   );
 };
