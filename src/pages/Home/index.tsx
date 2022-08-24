@@ -43,7 +43,7 @@ const Home = (props: Props) => {
           <PromotionItem />
         </div>
 
-        <div className="product-list">
+        <div className="product-list" id="about-us">
           <h1>Best seller</h1>
           <Row gutter={[30, 30]}>
             {products?.map((item, index) => {
@@ -74,7 +74,7 @@ const Home = (props: Props) => {
         <Row>
           <Col md={12} xs={24}>
             <div>
-              <div>
+              <div id="contact-us">
                 <h1>EC01-03</h1>
                 <p>19127489 - Hoàng Thiện Nhân</p>
                 <p>19127109 - Bùi Ngọc Chính</p>

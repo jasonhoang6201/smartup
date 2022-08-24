@@ -54,8 +54,18 @@ const ModalLogin = (props: Props) => {
     }
   };
 
-  const handleForgetPassword = () => {
+  const handleForgetPassword = async() => {
     console.log(form.getFieldsValue);
+    const data = {
+      email: form.getFieldValue("email"),
+    }
+    const res = await userAPI.forgotPassword(data)
+    if(res.errorCode){
+      return toast.error(`${res.data}`, { position: "top-right" })
+    }else{
+      toast.success(`${res.data}`, { position: "top-right" });
+      setModalType(ModalType.Login)
+    }
   };
 
   return (
@@ -208,7 +218,7 @@ const ModalLogin = (props: Props) => {
               </Form.Item>
               <Form.Item className="btn-submit">
                 <button className="btn" type="submit">
-                  Send mail
+                  Send Password
                 </button>
               </Form.Item>
               <div className="register">

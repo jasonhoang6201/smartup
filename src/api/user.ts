@@ -4,6 +4,9 @@ interface LoginRequest {
   email: string;
   password: string;
 }
+interface ForgotPass {
+  email: string;
+}
 interface LoginResponse {
   errorCode: boolean | null;
   data: User;
@@ -42,6 +45,10 @@ const userAPI = {
   },
   async register(data: LoginRequest): Promise<LoginResponse> {
     const response: LoginResponse = await axiosClient.post("/register", data);
+    return response;
+  },
+  async forgotPassword(data: ForgotPass): Promise<LoginResponse> {
+    const response: LoginResponse = await axiosClient.post("/forgotPassword", data);
     return response;
   },
 };

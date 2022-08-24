@@ -43,7 +43,7 @@ const Footer = (props: Props) => {
                                 <h1>Our Company</h1>
                                 <h5><Link to={'/about'}>About us</Link></h5>
                                 <h5><Link to={'/contact'}>Contact us</Link></h5>
-                                <h5><Link to={'/privacy'}>Privacy Policy</Link></h5>
+                                <h5><Link to={'/policy'}>Privacy Policy</Link></h5>
                             </div>
                         </Col>
                     </Row>
