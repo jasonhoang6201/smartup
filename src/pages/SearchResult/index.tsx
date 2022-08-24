@@ -71,6 +71,7 @@ const SearchResult = (props: Props) => {
       "filters[price]": price ?? 4,
     };
     const res = await productAPI.getProducts(query);
+    console.log(res)
     if (res.errorCode) {
     } else {
       console.log(res.data);
