@@ -1,10 +1,10 @@
 import { Button, Modal, Rate, Table, Tag } from "antd";
-import React, { useEffect, useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import orderApi, { Order } from "src/api/order";
 import useRouting from "src/hooks/UseRouting";
-import { useDispatch, useSelector } from "react-redux";
 type Props = {
   data: Array<any>;
 };
@@ -114,11 +114,11 @@ const History = () => {
   ];
   const getData = async () => {
     const res = await orderApi.getHistory(user.token);
-    console.log(res.data)
+    console.log(res.data);
     setOder(res.data ?? []);
-    setIsLoading(false)
+    setIsLoading(false);
   };
-  const handleTableChange = async (value:any) => {
+  const handleTableChange = async (value: any) => {
     setCurrentPage(value.current);
   };
   useEffect(() => {
@@ -127,7 +127,7 @@ const History = () => {
     } else {
       getData();
     }
-  }, [user, navigate]);
+  }, [user, navigate, generate, getData]);
   return (
     <div>
       <Table

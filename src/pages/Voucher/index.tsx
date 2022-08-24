@@ -1,10 +1,10 @@
 import { Col, Row, Tabs } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
+import { User } from "src/redux/auth";
 import VoucherCard from "./components/VoucherCard";
 import "./Voucher.scss";
-import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
-import { useSelector } from "react-redux";
-import { User } from "src/redux/auth";
 type Props = {};
 
 const Voucher = (props: Props) => {
@@ -31,7 +31,7 @@ const Voucher = (props: Props) => {
     const query = {
       page: currentPage,
       limit: 50,
-      "filters[userId]":  userId ,
+      "filters[userId]": userId,
     };
     const res = await voucherApi.getVouchers(query, userState?.token);
     if (res.errorCode) {
@@ -62,7 +62,7 @@ const Voucher = (props: Props) => {
                   stock={item.stock}
                   id={item.id}
                   isHad={false}
-                  claim = {claim}
+                  claim={claim}
                   onClaim={setClaim}
                 />
               </Col>
@@ -81,7 +81,7 @@ const Voucher = (props: Props) => {
                   stock={item.stock}
                   id={item.id}
                   isHad={true}
-                  claim = {claim}
+                  claim={claim}
                   onClaim={setClaim}
                 />
               </Col>

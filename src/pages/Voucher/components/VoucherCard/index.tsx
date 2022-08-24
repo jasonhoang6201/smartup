@@ -1,10 +1,8 @@
 import { Button } from "antd";
-import React from "react";
-import { FaTimes } from "react-icons/fa";
-import "./VoucherCard.scss";
 import { useSelector } from "react-redux";
+import voucherApi from "src/api/voucher";
 import { User } from "src/redux/auth";
-import voucherApi, { Voucher as IVoucher } from "src/api/voucher";
+import "./VoucherCard.scss";
 type Props = {
   thumbnail: string;
   title: string;
@@ -17,19 +15,20 @@ type Props = {
 };
 
 const VoucherCard = (props: Props) => {
-  const { thumbnail, title, description, stock, isHad, id, claim, onClaim } = props;
+  const { thumbnail, title, description, stock, isHad, id, claim, onClaim } =
+    props;
   const userState: User = useSelector((state: any) => state.auth.user);
   async function claimVoucher(id: string) {
     const res = await voucherApi.claimVoucher(id);
     if (res.errorCode) {
     } else {
-      onClaim(claim + 1)
+      onClaim(claim + 1);
     }
   }
   const handleAddVoucher = async () => {
     if (!userState.id) {
     } else {
-      const res = await claimVoucher(id);
+      await claimVoucher(id);
     }
   };
   return (
