@@ -37,13 +37,13 @@ const Home = (props: Props) => {
           <Link to="/category">View collection</Link>
         </div>
       </div>
-      <div className="container">
+      <div className="container" id="about-us">
         <div className="promotion">
           <h1>What makes our brand different</h1>
           <PromotionItem />
         </div>
 
-        <div className="product-list" id="about-us">
+        <div className="product-list">
           <h1>Best seller</h1>
           <Row gutter={[30, 30]}>
             {products?.map((item, index) => {
