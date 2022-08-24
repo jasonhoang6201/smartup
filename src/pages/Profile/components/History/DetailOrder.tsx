@@ -1,5 +1,5 @@
 import { Modal, Steps, Table } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import orderAPI from "src/api/order";
 
@@ -27,9 +27,14 @@ type Props = {
 const DetailOrder = (props: Props) => {
   const { data, order } = props;
   const [current, setCurrent] = useState(1);
-  const [isConfirmModal, setIsConfirmModal] = useState(false);
   const user = useSelector((state: any) => state.auth.user);
-
+  useEffect(()=>{
+    steps.map((item,index) => {
+      if (item.title === order.status) {
+        setCurrent(index)
+      }
+    })
+  },[])
   const columns = [
     {
       title: "",

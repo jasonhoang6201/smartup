@@ -5,6 +5,8 @@ import { FaHeart } from "react-icons/fa";
 import orderApi, { Order } from "src/api/order";
 import useRouting from "src/hooks/UseRouting";
 import { useDispatch, useSelector } from "react-redux";
+import DetailOrder from "./DetailOrder";
+
 type Props = {
   data: Array<any>;
 };
@@ -26,6 +28,16 @@ const History = () => {
   const { generate } = useRouting();
   const [currentPage, setCurrentPage] = React.useState(1);
   const [order, setOder] = React.useState<Array<Order>>([]);
+  const [isModal, setIsModal] = React.useState(false);
+  const [editItem, setEditItem] = React.useState<any>(null);
+
+  const handelCloseModal = () => {
+    setEditItem(null);
+    setIsModal(false);
+    setEditItem(null);
+
+  
+  };
   const handleCloseModal = () => {
     setRateItem(null);
     setIsRateModal(false);
@@ -114,11 +126,11 @@ const History = () => {
   ];
   const getData = async () => {
     const res = await orderApi.getHistory(user.token);
-    console.log(res.data)
+    console.log(res.data);
     setOder(res.data ?? []);
-    setIsLoading(false)
+    setIsLoading(false);
   };
-  const handleTableChange = async (value:any) => {
+  const handleTableChange = async (value: any) => {
     setCurrentPage(value.current);
   };
   useEffect(() => {
@@ -140,6 +152,14 @@ const History = () => {
         }}
         onChange={handleTableChange}
         loading={isLoading}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              setIsModal(true);
+              setEditItem(record);
+            },
+          };
+        }}
       />
 
       <Modal
@@ -165,6 +185,17 @@ const History = () => {
             style={{ color: "red" }}
           />
         </p>
+      </Modal>
+      <Modal
+        title="Order"
+        visible={isModal}
+        onOk={handelCloseModal}
+        onCancel={handelCloseModal}
+        okText={<span className="text-blue-500 hover:text-white">Update</span>}
+        width={"80%"}
+        destroyOnClose
+      >
+        <DetailOrder data={editItem?.product || []} order={editItem} />
       </Modal>
     </div>
   );
