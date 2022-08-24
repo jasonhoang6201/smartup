@@ -16,7 +16,7 @@ export interface Product {
   sold: number;
   rate?: number;
   relatedProducts: relatedProducts;
-  weight: number
+  weight: number;
 }
 
 interface relatedProducts {
@@ -48,7 +48,6 @@ const productAPI = {
       url += "?" + objectToQueryString(query);
     }
     const response: ProductsResponse = await axiosClient.get(url);
-    console.log(response)
     return response;
   },
   async getDetailProduct(id?: string): Promise<ProductDetailResponse> {

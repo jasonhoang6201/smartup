@@ -79,15 +79,35 @@ const History = () => {
       render: (_: string, record: any) => {
         switch (record.status) {
           case "Pending":
-            return <Tag color="blue">Pending</Tag>;
+            return (
+              <div className="items-center">
+                <Tag color="blue">Pending</Tag>;
+              </div>
+            );
           case "Shipping":
-            return <Tag color="pink">Shipping</Tag>;
+            return (
+              <div className="items-center">
+                <Tag color="pink">Shipping</Tag>
+              </div>
+            );
           case "Done":
-            return <Tag color="green">Delivered</Tag>;
+            return (
+              <div className="items-center">
+                <Tag color="green">Delivered</Tag>
+              </div>
+            );
           case "Cancel":
-            return <Tag color="red">Cancelled</Tag>;
+            return (
+              <div className="items-center">
+                <Tag color="red">Cancelled</Tag>
+              </div>
+            );
           default:
-            return <Tag color="blue">Pending</Tag>;
+            return (
+              <div className="items-center">
+                <Tag color="blue">Pending</Tag>
+              </div>
+            );
         }
       },
       width: "10%",
@@ -124,7 +144,6 @@ const History = () => {
   ];
   const getData = async () => {
     const res = await orderApi.getHistory(user.token);
-    console.log(res.data);
     setOder(res.data ?? []);
     setIsLoading(false);
   };
@@ -137,7 +156,7 @@ const History = () => {
     } else {
       getData();
     }
-  }, [user, navigate, generate, getData]);
+  }, [user]);
   return (
     <div>
       <Table

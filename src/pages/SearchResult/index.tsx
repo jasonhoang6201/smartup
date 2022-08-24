@@ -71,15 +71,12 @@ const SearchResult = (props: Props) => {
       "filters[price]": price ?? 4,
     };
     const res = await productAPI.getProducts(query);
-    console.log(res)
     if (res.errorCode) {
     } else {
-      console.log(res.data);
       setProducts(append ? [...products, ...res.data] : res.data);
       setTotalPage(res.metadata.recordTotal);
     }
   }
-  console.log(products);
   const handleFilter = async () => {
     let category = "";
     let brand = "";

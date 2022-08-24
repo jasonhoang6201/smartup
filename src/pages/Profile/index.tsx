@@ -24,56 +24,54 @@ const Profile = (props: Props) => {
   const dispatch = useDispatch();
 
   const [isEditProfile, setIsEditProfile] = React.useState(false);
-  
+
   const handleChangeProfile = async () => {
     let formData = form.getFieldsValue();
-    formData.birthday = moment(formData.birthday).format("DD/MM/YYYY")
+    formData.birthday = moment(formData.birthday).format("DD/MM/YYYY");
     let res = await userAPI.update(formData, user.token);
-    if(!res.errorCode){
-      setIsEditProfile(false)
-      const token = localStorage.getItem("token")
-      res.data.token = token
-      dispatch(login(res.data))
-    }else{
-      return toast.error(`${res.data}`, { position: "top-right" })
+    if (!res.errorCode) {
+      setIsEditProfile(false);
+      const token = localStorage.getItem("token");
+      res.data.token = token;
+      dispatch(login(res.data));
+    } else {
+      return toast.error(`${res.data}`, { position: "top-right" });
     }
   };
 
-  const handleChangePassword = async(values:any) => {
-    console.log(form.getFieldsValue())
-    if(values.newPassword.length < 6){
-      return toast.error("Password must be at least 6 characters", {position:"top-right"})
-
+  const handleChangePassword = async (values: any) => {
+    if (values.newPassword.length < 6) {
+      return toast.error("Password must be at least 6 characters", {
+        position: "top-right",
+      });
     }
-    if(values.confirmPassword !== values.newPassword){
-      return toast.error("Wrong confirm password", {position:"top-right"})
+    if (values.confirmPassword !== values.newPassword) {
+      return toast.error("Wrong confirm password", { position: "top-right" });
     }
     let data = {
       ...form.getFieldsValue(),
-    }
-    data.password = values.newPassword
-    delete data.newPassword
-    delete data.confirmPassword
-    delete data.birthday
-    console.log(data)
+    };
+    data.password = values.newPassword;
+    delete data.newPassword;
+    delete data.confirmPassword;
+    delete data.birthday;
     let res = await userAPI.update(data, user.token);
-    if(!res.errorCode){
-      setIsEditProfile(false)
-      const token = localStorage.getItem("token")
-      res.data.token = token
-      dispatch(login(res.data))
-      toast.success(`Update successfully`, {position: "top-right"})
+    if (!res.errorCode) {
+      setIsEditProfile(false);
+      const token = localStorage.getItem("token");
+      res.data.token = token;
+      dispatch(login(res.data));
+      toast.success(`Update successfully`, { position: "top-right" });
       navigate(generate("home"));
-    }else{
-      return toast.error(`${res.data}`, { position: "top-right" })
-
+    } else {
+      return toast.error(`${res.data}`, { position: "top-right" });
     }
   };
 
   const handleChange = (key: string) => {
     if (key === "4") {
       dispatch(logout());
-      dispatch(deleteAllCart())
+      dispatch(deleteAllCart());
       navigate(generate("home"));
     }
   };
@@ -122,10 +120,7 @@ const Profile = (props: Props) => {
                 readOnly={!isEditProfile}
               />
             </Form.Item>
-            <Form.Item
-              name="birthday"
-              label="Date of birth"
-            >
+            <Form.Item name="birthday" label="Date of birth">
               <DatePicker
                 format={"DD/MM/YYYY"}
                 className={`custom-input ${

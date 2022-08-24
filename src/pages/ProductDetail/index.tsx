@@ -1,4 +1,4 @@
-import { Col, notification, Radio, Row } from "antd";
+import { Col, notification, Radio, Row, Spin } from "antd";
 import React, { useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,11 +37,13 @@ const ProductDetail = (props: Props) => {
   const [amount, setAmount] = React.useState(1);
   const [isModalLogin, setIsModalLogin] = React.useState(false);
   const [product, setProduct] = React.useState<newProduct | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [relatedProduct, setRelatedProduct] =
     React.useState<Array<Product> | null>([]);
   const navigate = useNavigate();
   const { generate } = useRouting();
   async function getData(id?: string) {
+    setIsLoading(true);
     const res = await productAPI.getDetailProduct(id);
     setProduct({
       ...res.data,
@@ -54,6 +56,7 @@ const ProductDetail = (props: Props) => {
           : res.data.price,
     });
     setRelatedProduct(res.data.relatedProducts?.data);
+    setIsLoading(false);
   }
   useEffect(() => {
     getData(params.id);
@@ -61,8 +64,10 @@ const ProductDetail = (props: Props) => {
 
   const handleAddToCard = async (id: string) => {
     if (user) {
+      setIsLoading(true);
       const res = await cartAPI.updateCart(user.token, id, amount, true);
       if (res.errorCode) {
+        setIsLoading(false);
         notification.error({
           message: "Error",
           description: "Something went wrong",
@@ -72,12 +77,13 @@ const ProductDetail = (props: Props) => {
         if (!cartState.includes(id)) {
           dispatch(addCart(id));
         }
+        setIsLoading(false);
       }
     } else {
+      setIsLoading(false);
       setIsModalLogin(true);
     }
   };
-  console.log(product)
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -86,56 +92,57 @@ const ProductDetail = (props: Props) => {
   }, [params]);
 
   return (
-    <div className="product-detail">
-      <Row gutter={[30, 30]}>
-        <Col md={8} xs={24}>
-          <div className="product-detail-image">
-            <img
-              src={
-                product?.image[0] ??
-                "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
-              }
-              alt="product"
-              width={"100%"}
-            />
-          </div>
-        </Col>
-        <Col md={16} xs={24}>
-          <div className="product-detail-info">
-            <h1>{product?.name}</h1>
-            <div className="product-detail-info-price">
-              <span className="product-detail-info-price-sale">
-                ${product?.newPrice}
-              </span>
-              {product && product.sale !== "0" && (
-                <span className="product-detail-info-price-origin">
-                  ${product?.price}
+    <Spin spinning={isLoading}>
+      <div className="product-detail">
+        <Row gutter={[30, 30]}>
+          <Col md={8} xs={24}>
+            <div className="product-detail-image">
+              <img
+                src={
+                  product?.image[0] ??
+                  "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
+                }
+                alt="product"
+                width={"100%"}
+              />
+            </div>
+          </Col>
+          <Col md={16} xs={24}>
+            <div className="product-detail-info">
+              <h1>{product?.name}</h1>
+              <div className="product-detail-info-price">
+                <span className="product-detail-info-price-sale">
+                  ${product?.newPrice}
                 </span>
-              )}
-            </div>
-            <div className="product-detail-info-rate-count">
-              {product?.rate ? (
-                <div>
-                  {Array.from(Array(product.rate)).map((item, index) => (
-                    <FaHeart key={index} color="red" />
-                  ))}
-                  {Array.from(Array(5 - product.rate)).map((item, index) => (
-                    <FaHeart key={index} color="grey" />
-                  ))}
-                </div>
-              ) : (
-                <div>
-                  {Array.from(Array(5)).map((item, index) => (
-                    <FaHeart key={index} color="grey" />
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="product-detail-info-description">
-              <h3>Description</h3>
-              <p>{product?.description}</p>
-            </div>
-            {/* <div className="product-detail-info-color">
+                {product && product.sale !== "0" && (
+                  <span className="product-detail-info-price-origin">
+                    ${product?.price}
+                  </span>
+                )}
+              </div>
+              <div className="product-detail-info-rate-count">
+                {product?.rate ? (
+                  <div>
+                    {Array.from(Array(product.rate)).map((item, index) => (
+                      <FaHeart key={index} color="red" />
+                    ))}
+                    {Array.from(Array(5 - product.rate)).map((item, index) => (
+                      <FaHeart key={index} color="grey" />
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    {Array.from(Array(5)).map((item, index) => (
+                      <FaHeart key={index} color="grey" />
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="product-detail-info-description">
+                <h3>Description</h3>
+                <p>{product?.description}</p>
+              </div>
+              {/* <div className="product-detail-info-color">
               <h3>Color:</h3>
               <Radio.Group className="radio-custom">
                 {product?.color.map((item, index) => {
@@ -147,55 +154,56 @@ const ProductDetail = (props: Props) => {
                 })}
               </Radio.Group>
             </div> */}
-            <div className="product-detail-info-quantity">
-              <h3>Amount:</h3>
-              <QuantityButton value={amount} onChange={setAmount} />
+              <div className="product-detail-info-quantity">
+                <h3>Amount:</h3>
+                <QuantityButton value={amount} onChange={setAmount} />
+              </div>
+              <div className="product-detail-info-button">
+                <button
+                  className="btn"
+                  onClick={() => handleAddToCard(product?.id || "")}
+                >
+                  Add to cart
+                </button>
+              </div>
             </div>
-            <div className="product-detail-info-button">
-              <button
-                className="btn"
-                onClick={() => handleAddToCard(product?.id || "")}
-              >
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </Col>
-      </Row>
-      <div className="similar">
-        <h1>You might also like</h1>
-        <Row gutter={[30, 30]}>
-          {relatedProduct?.map((item, index) => (
-            <Col key={index} md={6} xs={12}>
-              <ProductCard
-                id={item.id}
-                thumbnail={
-                  item.image[0] ??
-                  "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
-                }
-                name={item.name}
-                price={item.price}
-                sale={item.sale}
-                rate={item.rate}
-              />
-            </Col>
-          ))}
+          </Col>
         </Row>
+        <div className="similar">
+          <h1>You might also like</h1>
+          <Row gutter={[30, 30]}>
+            {relatedProduct?.map((item, index) => (
+              <Col key={index} md={6} xs={12}>
+                <ProductCard
+                  id={item.id}
+                  thumbnail={
+                    item.image[0] ??
+                    "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
+                  }
+                  name={item.name}
+                  price={item.price}
+                  sale={item.sale}
+                  rate={item.rate}
+                />
+              </Col>
+            ))}
+          </Row>
 
-        <div className="btn-view-more">
-          <button
-            className="btn"
-            onClick={() => navigate(generate("category"))}
-          >
-            View more
-          </button>
+          <div className="btn-view-more">
+            <button
+              className="btn"
+              onClick={() => navigate(generate("category"))}
+            >
+              View more
+            </button>
+          </div>
         </div>
+        <ModalLogin
+          visible={isModalLogin}
+          onCancel={() => setIsModalLogin(false)}
+        />
       </div>
-      <ModalLogin
-        visible={isModalLogin}
-        onCancel={() => setIsModalLogin(false)}
-      />
-    </div>
+    </Spin>
   );
 };
 

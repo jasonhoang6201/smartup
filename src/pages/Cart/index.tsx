@@ -23,7 +23,7 @@ const Cart = (props: Props) => {
   const [isCheckoutModal, setIsCheckoutModal] = React.useState(false);
   const handleDeleteCart = async (id: string) => {
     const res = await cartAPI.updateCart(user.token, id, 0);
-    if (res.errorCode) {
+    if (res?.errorCode) {
       notification.error({
         message: "Error",
         description: "Something went wrong",
@@ -87,7 +87,7 @@ const Cart = (props: Props) => {
       dataIndex: "weight",
       key: "weight",
       render: (_: string, record: any) => {
-        return `${(record.product.weight * record.quantity).toFixed(1)}`;
+        return `${(record.product.weight * record.quantity).toFixed(1)}kg`;
       },
       width: "20%",
     },
