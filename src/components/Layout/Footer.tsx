@@ -53,7 +53,7 @@ const Footer = (props: Props) => {
                   <a href="#about-us">About us</a>
                 </h5>
                 <h5>
-                  <Link to={"/contact"}>Contact us</Link>
+                  <a href="#contact-us">Contact us</a>
                 </h5>
                 <h5>
                   <Link to={"/policy"}>Privacy Policy</Link>
