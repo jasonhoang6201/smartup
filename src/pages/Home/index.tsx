@@ -48,7 +48,7 @@ const Home = (props: Props) => {
           <Row gutter={[30, 30]}>
             {products?.map((item, index) => {
               return (
-                <Col md={6} xs={12} key ={index}>
+                <Col md={6} xs={12} key={index}>
                   <ProductCard
                     id={item.id}
                     name={item.name}
@@ -59,7 +59,7 @@ const Home = (props: Props) => {
                       item.image[0] ??
                       "https://woopimages.com/uploads/products/thumbs/aesthetic-heart-brown-apple-iphone-13--silicone-phone-case-cover.webp"
                     }
-                    key ={index}
+                    key={index}
                   />
                 </Col>
               );
@@ -75,11 +75,14 @@ const Home = (props: Props) => {
           <Col md={12} xs={24}>
             <div>
               <div>
-                <h1>Start buying and decorating your phone</h1>
-                <p>Your satisfaction is our greatest motivation</p>
+                <h1>EC01-03</h1>
+                <p>19127489 - Hoàng Thiện Nhân</p>
+                <p>19127109 - Bùi Ngọc Chính</p>
+                <p>19127451 - Lê Nguyễn Anh Khôi</p>
+                <p>19127186 - Lê Thành Khôi</p>
               </div>
               <p className="link-container">
-                <Link to="/category">View collection</Link>
+                <Link to="/policy">Privacy Policy</Link>
               </p>
             </div>
           </Col>

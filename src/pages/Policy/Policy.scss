@@ -1,0 +1,29 @@
+.policy {
+  text-align: justify;
+  padding: 0 3rem;
+
+  & > div {
+    font-size: 60px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  h1 {
+    font-size: 20px;
+  }
+
+  ul {
+    list-style: none;
+    margin-left: 2rem;
+    padding: 0;
+    ul {
+      margin-left: 2rem;
+      padding: 0;
+
+      ul {
+        padding: 0;
+        margin-left: 2rem;
+      }
+    }
+  }
+}

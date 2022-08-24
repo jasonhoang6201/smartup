@@ -1,6 +1,7 @@
 import Cart from "src/pages/Cart";
 import Category from "src/pages/Category";
 import Home from "src/pages/Home";
+import Policy from "src/pages/Policy";
 import ProductDetail from "src/pages/ProductDetail";
 import Profile from "src/pages/Profile";
 import SearchResult from "src/pages/SearchResult";
@@ -52,6 +53,11 @@ const routers: Routers[] = [
     name: "voucher",
     path: "/voucher",
     element: Voucher,
+  },
+  {
+    name: "policy",
+    path: "/policy",
+    element: Policy,
   },
 ];
 
