@@ -12,6 +12,7 @@ import History from "./components/History";
 import userAPI from "src/api/user";
 import "./Profile.scss";
 import { login } from "src/redux/auth";
+import toast from "react-hot-toast";
 
 type Props = {};
 
@@ -33,10 +34,41 @@ const Profile = (props: Props) => {
       const token = localStorage.getItem("token")
       res.data.token = token
       dispatch(login(res.data))
+    }else{
+      return toast.error(`${res.data}`, { position: "top-right" })
     }
   };
 
-  const handleChangePassword = () => {};
+  const handleChangePassword = async(values:any) => {
+    console.log(form.getFieldsValue())
+    if(values.newPassword.length < 6){
+      return toast.error("Password must be at least 6 characters", {position:"top-right"})
+
+    }
+    if(values.confirmPassword !== values.newPassword){
+      return toast.error("Wrong confirm password", {position:"top-right"})
+    }
+    let data = {
+      ...form.getFieldsValue(),
+    }
+    data.password = values.newPassword
+    delete data.newPassword
+    delete data.confirmPassword
+    delete data.birthday
+    console.log(data)
+    let res = await userAPI.update(data, user.token);
+    if(!res.errorCode){
+      setIsEditProfile(false)
+      const token = localStorage.getItem("token")
+      res.data.token = token
+      dispatch(login(res.data))
+      toast.success(`Update successfully`, {position: "top-right"})
+      navigate(generate("home"));
+    }else{
+      return toast.error(`${res.data}`, { position: "top-right" })
+
+    }
+  };
 
   const handleChange = (key: string) => {
     if (key === "4") {
