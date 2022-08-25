@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import voucherApi from "src/api/voucher";
 import { User } from "src/redux/auth";
+import voucher from "src/assets/images/voucher.png";
+import voucherClaimed from "src/assets/images/voucherClaimed.png";
 import "./VoucherCard.scss";
 type Props = {
   thumbnail: string;
@@ -16,16 +18,17 @@ type Props = {
 };
 
 const VoucherCard = (props: Props) => {
-  const { thumbnail, title, description, stock, isHad, id, claim, onClaim } =
-    props;
+  const { title, description, stock, isHad, id, claim, onClaim } = props;
   const userState: User = useSelector((state: any) => state.auth.user);
   async function claimVoucher(id: string) {
     const res = await voucherApi.claimVoucher(id);
     if (res.errorCode) {
-      return toast.error("Cannot claim Voucher", {position:"top-right"})
+      return toast.error("Cannot claim Voucher", { position: "top-right" });
     } else {
       onClaim(claim + 1);
-      return toast.success("Voucher has been claimed", {position:"top-right"});
+      return toast.success("Voucher has been claimed", {
+        position: "top-right",
+      });
     }
   }
   const handleAddVoucher = async () => {
@@ -38,7 +41,7 @@ const VoucherCard = (props: Props) => {
     <div className="voucher-card">
       <div className="voucher-card-wrapper">
         <div className="voucher-card__thumbnail">
-          <img src={thumbnail} alt="voucher" />
+          <img src={isHad ? voucherClaimed : voucher} alt="voucher" />
         </div>
         <div className="voucher-card__content">
           <h1 className="voucher-card__title">{title}</h1>
