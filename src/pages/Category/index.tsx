@@ -36,6 +36,7 @@ const Category = (props: Props) => {
           : category ?? "",
       "filters[brand]": brand ?? "",
       "filters[price]": price ?? 4,
+      "filters[stock]": true,
     };
     setIsLoading(true);
     const res = await productAPI.getProducts(query);
