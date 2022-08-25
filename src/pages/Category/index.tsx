@@ -303,6 +303,9 @@ const Category = (props: Props) => {
                     </button>
                   </div>
                 )}
+                {products.length <= 0 && (
+                  <div style={{ textAlign: "center" }}>No Product</div>
+                )}
               </div>
             </Spin>
           </Col>
