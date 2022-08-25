@@ -69,6 +69,7 @@ const SearchResult = (props: Props) => {
       "filters[category]": "",
       "filters[brand]": brand ?? "",
       "filters[price]": price ?? 4,
+      "filters[stock]": true,
     };
     const res = await productAPI.getProducts(query);
     if (res.errorCode) {

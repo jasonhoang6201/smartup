@@ -17,6 +17,7 @@ const Home = (props: Props) => {
       const query = {
         page: 1,
         limit: 4,
+      "filters[stock]": true,
       };
       const res = await productAPI.getProducts(query);
       if (res.errorCode) {
