@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.37daab8b.css",
+    "main.js": "/static/js/main.81b0a895.js",
+    "static/media/hero.png": "/static/media/hero.1ba80a4c3229d2d83ea5.png",
+    "static/media/promotion-v2.png": "/static/media/promotion-v2.e73be7dbd2ed0a330ec9.png",
+    "static/media/voucherClaimed.png": "/static/media/voucherClaimed.39eded6b5cc7b950c47b.png",
+    "static/media/cash.jpg": "/static/media/cash.15aa7dd3da9875b79644.jpg",
+    "static/media/logo.png": "/static/media/logo.ec93ec9d71285e7b49ff.png",
+    "static/media/voucher.png": "/static/media/voucher.b5eda9438257f03139fa.png",
+    "static/media/momo.png": "/static/media/momo.76e3231bcda51c058366.png",
+    "static/media/ship.svg": "/static/media/ship.3731f4295a7998931957bca0b3f66311.svg",
+    "static/media/user.svg": "/static/media/user.13772687729597a4c6afd4e222d64ebb.svg",
+    "static/media/plant.svg": "/static/media/plant.bcf7d61af70872ec04651102f1731780.svg",
+    "static/media/tick-circle.svg": "/static/media/tick-circle.4c4a9ef4d4009c90b37ec2d81cf420c0.svg",
+    "static/media/cart.svg": "/static/media/cart.a2f52ee921bb0a7cbd457890eb47e766.svg",
+    "static/media/search.svg": "/static/media/search.047bd375355ded58725385fc2e477231.svg",
+    "static/media/github.svg": "/static/media/github.24f11316b4ad96ddbbf07f1afdf6f747.svg",
+    "static/media/credit-card.svg": "/static/media/credit-card.99404d39af45e0e26e4bc4c140bb3886.svg",
+    "index.html": "/index.html",
+    "main.37daab8b.css.map": "/static/css/main.37daab8b.css.map",
+    "main.81b0a895.js.map": "/static/js/main.81b0a895.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.37daab8b.css",
+    "static/js/main.81b0a895.js"
+  ]
+}
